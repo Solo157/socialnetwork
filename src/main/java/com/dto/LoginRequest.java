@@ -9,4 +9,5 @@ public class LoginRequest {
 
     private UUID id;
     private String password;
+
 }

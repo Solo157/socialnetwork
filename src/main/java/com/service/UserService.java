@@ -29,6 +29,7 @@ public class UserService {
                 .birthdate(request.getBirthdate())
                 .biography(request.getBiography())
                 .city(request.getCity())
+                // хэшируем пароль, не должны его хранить в БД
                 .passwordHash(hashPassword(request.getPassword()))
                 .build();
 
@@ -63,14 +64,21 @@ public class UserService {
         UserEntity user = userRepository.findById(request.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!user.getPasswordHash().equals(hashPassword(request.getPassword()))) {
+        String userPasswordHash = user.getPasswordHash();
+        String requestPassword = request.getPassword();
+        // сравниваем хэши из БД и из запроса, если совпадают, значит пароль верный.
+        if (!userPasswordHash.equals(hashPassword(requestPassword))) {
             throw new RuntimeException("Invalid password");
         }
 
         return UUID.randomUUID().toString();
     }
 
+    /**
+     * Хэширование пароля.
+     */
     private String hashPassword(String password) {
         return Integer.toHexString(password.hashCode());
     }
+
 }

@@ -34,6 +34,7 @@ public class UserRepository {
                 """;
 
         try (Connection connection = dataSource.getConnection();
+             // Используем PreparedStatement, поэтому это защищает от SQL-инъекций
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setObject(1, user.getId());
