@@ -19,8 +19,8 @@ public class UserService {
     /**
      * Зарегистрировать пользователя.
      */
-    public UUID register(RegisterUserRequest request) {
-        UUID id = UUID.randomUUID();
+    public String register(RegisterUserRequest request) {
+        String id = UUID.randomUUID().toString();
 
         UserEntity user = UserEntity.builder()
                 .id(id)
@@ -47,12 +47,30 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return UserResponse.builder()
-                .id(user.getId())
+                .id(user.getId().toString())
                 .firstName(user.getFirstName())
                 .secondName(user.getSecondName())
                 .birthdate(user.getBirthdate())
                 .biography(user.getBiography())
                 .city(user.getCity())
+                .build();
+    }
+
+    public List<UserResponse> search(String firstName, String secondName) {
+        return userRepository.search(firstName, secondName)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    private UserResponse toResponse(UserEntity userEntity) {
+        return UserResponse.builder()
+                .id(userEntity.getId())
+                .firstName(userEntity.getFirstName())
+                .secondName(userEntity.getSecondName())
+//                .birthdate(userEntity.getBirthdate())
+//                .biography(userEntity.getBiography())
+                .city(userEntity.getCity())
                 .build();
     }
 

@@ -66,7 +66,7 @@ public class UserRepository {
             }
 
             UserEntity user = UserEntity.builder()
-                    .id((UUID) rs.getObject(UserEntity.Fields.id))
+                    .id((String) rs.getObject(UserEntity.Fields.id))
                     .firstName(rs.getString(UserEntity.Fields.firstName))
                     .secondName(rs.getString(UserEntity.Fields.secondName))
                     .birthdate(rs.getDate(UserEntity.Fields.birthdate).toLocalDate())
@@ -76,6 +76,47 @@ public class UserRepository {
                     .build();
 
             return Optional.of(user);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<UserEntity> search(String firstName, String secondName) {
+        String sql = """
+                SELECT *
+                FROM users
+                WHERE firstName LIKE ?
+                  AND secondName LIKE ?
+                ORDER BY id
+                """;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, firstName + "%");
+            ps.setString(2, secondName + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            List<UserEntity> users = new ArrayList<>();
+
+            while (rs.next()) {
+
+                UserEntity user = UserEntity.builder()
+                        .id((String) rs.getObject(UserEntity.Fields.id))
+                        .firstName(rs.getString(UserEntity.Fields.firstName))
+                        .secondName(rs.getString(UserEntity.Fields.secondName))
+//                        .birthdate(rs.getDate(UserEntity.Fields.birthdate).toLocalDate())
+//                        .biography(rs.getString(UserEntity.Fields.biography))
+                        .city(rs.getString(UserEntity.Fields.city))
+//                        .passwordHash(rs.getString(UserEntity.Fields.passwordHash))
+                        .build();
+
+                users.add(user);
+            }
+
+            return users;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -15,7 +15,7 @@ import java.util.*;
 @Builder
 public class UserEntity {
 
-    private UUID id;
+    private String id;
     private String firstName;
     private String secondName;
     private LocalDate birthdate;
