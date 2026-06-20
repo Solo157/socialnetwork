@@ -2,11 +2,29 @@ spring:
   application:
     name: socialnetwork
 
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/social_network
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+#    hikari:
+#      maximum-pool-size: 150
+#      connection-timeout: 60000
+
   datasource:
-    url: jdbc:postgresql://db:5432/social_network
-    username: postgres
-    password: postgres
     driver-class-name: org.postgresql.Driver
+    master:
+      url: jdbc:postgresql://localhost:5432/postgres
+      username: postgres
+      password: pass
+    slave1:
+      url: jdbc:postgresql://localhost:15432/postgres
+      username: postgres
+      password: pass
+    slave2:
+      url: jdbc:postgresql://localhost:25432/postgres
+      username: postgres
+      password: pass
 
   sql:
     init:

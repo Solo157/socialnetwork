@@ -51,7 +51,7 @@ public class UserRepository {
         }
     }
 
-    public Optional<UserEntity> findById(UUID id) {
+    public Optional<UserEntity> findById(String id) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
         try (Connection connection = dataSource.getConnection();
@@ -88,7 +88,6 @@ public class UserRepository {
                 FROM users
                 WHERE firstName LIKE ?
                   AND secondName LIKE ?
-                ORDER BY id
                 """;
 
         try (Connection connection = dataSource.getConnection();

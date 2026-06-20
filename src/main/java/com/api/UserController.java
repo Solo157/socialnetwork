@@ -31,7 +31,7 @@ public class UserController {
      * Получить информацию по пользователю.
      */
     @GetMapping("/get/{id}")
-    public UserResponse getUser(@PathVariable UUID id) {
+    public UserResponse getUser(@PathVariable String id) {
         return userService.getUser(id);
     }
 

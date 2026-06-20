@@ -7,6 +7,7 @@ import com.dto.LoginRequest;
 import com.dto.RegisterUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -19,6 +20,7 @@ public class UserService {
     /**
      * Зарегистрировать пользователя.
      */
+    @Transactional(readOnly = false)
     public String register(RegisterUserRequest request) {
         String id = UUID.randomUUID().toString();
 
@@ -41,7 +43,8 @@ public class UserService {
     /**
      * Получить информацию по пользователю.
      */
-    public UserResponse getUser(UUID id) {
+    @Transactional(readOnly = true)
+    public UserResponse getUser(String id) {
 
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -56,6 +59,7 @@ public class UserService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public List<UserResponse> search(String firstName, String secondName) {
         return userRepository.search(firstName, secondName)
                 .stream()
@@ -79,7 +83,7 @@ public class UserService {
      * !!! Пока что метод реализован больше как заглушка !!!
      */
     public String login(LoginRequest request) {
-        UserEntity user = userRepository.findById(request.getId())
+        UserEntity user = userRepository.findById(request.getId().toString())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         String userPasswordHash = user.getPasswordHash();
