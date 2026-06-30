@@ -3,10 +3,19 @@ spring:
     name: socialnetwork
 
   datasource:
-    url: jdbc:postgresql://db:5432/social_network
-    username: postgres
-    password: postgres
     driver-class-name: org.postgresql.Driver
+    master:
+      url: jdbc:postgresql://pgmaster:5432/postgres
+      username: postgres
+      password: pass
+    slave1:
+      url: jdbc:postgresql://pgslave:5432/postgres
+      username: postgres
+      password: pass
+    slave2:
+      url: jdbc:postgresql://pgasyncslave:5432/postgres
+      username: postgres
+      password: pass
 
   sql:
     init:
