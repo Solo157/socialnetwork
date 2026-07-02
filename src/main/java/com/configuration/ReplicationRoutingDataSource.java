@@ -1,9 +1,5 @@
 package com.configuration;
 
-import jakarta.annotation.PostConstruct;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -13,9 +9,14 @@ import javax.sql.DataSource;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+/**
+ * Сервис, отвечающий за роутинг на базы данных при создании транзакции.
+ */
 public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
 
+    /**
+     * В конструкторе регистрируем сорсы баз данных.
+     */
     public ReplicationRoutingDataSource(DataSource master, DataSource slave1, DataSource slave2) {
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put("master", master);
@@ -28,6 +29,9 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
 
     private final AtomicInteger counter = new AtomicInteger(0);
 
+    /**
+     * По при знаку readOnly понимаем какой сорс БД использовать. readOnly считывается из аннотации @Transactional.
+     */
     @Nullable
     @Override
     protected Object determineCurrentLookupKey() {

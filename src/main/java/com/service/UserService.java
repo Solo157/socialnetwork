@@ -16,6 +16,8 @@ import java.util.*;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtService jwtService;
+    private final RedisService redisService;
 
     /**
      * Зарегистрировать пользователя.
@@ -43,7 +45,7 @@ public class UserService {
     /**
      * Получить информацию по пользователю.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public UserResponse getUser(String id) {
 
         UserEntity user = userRepository.findById(id)
@@ -59,7 +61,7 @@ public class UserService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public List<UserResponse> search(String firstName, String secondName) {
         return userRepository.search(firstName, secondName)
                 .stream()
@@ -80,7 +82,6 @@ public class UserService {
 
     /**
      * Получить токен по идентификатору и паролю пользователя.
-     * !!! Пока что метод реализован больше как заглушка !!!
      */
     public String login(LoginRequest request) {
         UserEntity user = userRepository.findById(request.getId().toString())
@@ -93,7 +94,7 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
 
-        return UUID.randomUUID().toString();
+        return jwtService.generateToken(user.getId());
     }
 
     /**
@@ -101,6 +102,29 @@ public class UserService {
      */
     private String hashPassword(String password) {
         return Integer.toHexString(password.hashCode());
+    }
+
+    @Transactional(readOnly = false)
+    public void addFriend(String currentUserId, String friendId) {
+        userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userRepository.findById(friendId)
+                .orElseThrow(() -> new RuntimeException("Friend not found"));
+
+        userRepository.addFriend(currentUserId, friendId);
+
+        // удаляем из редиса пользователя, чтобы при получении ленты список постов друзей пересчитался заново
+        redisService.deleteValue(currentUserId);
+    }
+
+    @Transactional(readOnly = false)
+    public void removeFriend(String currentUserId, String friendId) {
+        userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userRepository.removeFriend(currentUserId, friendId);
+
+        // удаляем из редиса пользователя, чтобы при получении ленты список постов друзей пересчитался заново
+        redisService.deleteValue(currentUserId);
     }
 
 }

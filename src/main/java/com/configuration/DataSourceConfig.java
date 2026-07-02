@@ -43,6 +43,9 @@ public class DataSourceConfig {
     @Value("${spring.datasource.slave2.password}")
     private String slave2Password;
 
+    /**
+     * Принимает сорсы баз данных и подключает их к роутингу.
+     */
     @Bean
     @Primary
     public DataSource routingDataSource(@Qualifier("masterDataSource") DataSource master,
