@@ -7,6 +7,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * DTO для возврата информации по пользователю.
+ */
 @Data
 @Builder
 public class UserResponse {

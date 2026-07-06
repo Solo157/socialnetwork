@@ -22,5 +22,6 @@ public class UserEntity {
     private String biography;
     private String city;
     private String passwordHash;
+    private List<String> friends;
 
 }

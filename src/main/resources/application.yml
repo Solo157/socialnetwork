@@ -1,22 +1,24 @@
 spring:
   application:
     name: socialnetwork
-
   datasource:
     driver-class-name: org.postgresql.Driver
     master:
-      url: jdbc:postgresql://pgmaster:5432/postgres
-      username: postgres
-      password: pass
+      url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://pgmaster:5432/postgres}
+      username: ${SPRING_DATASOURCE_MASTER_USERNAME:postgres}
+      password: ${SPRING_DATASOURCE_MASTER_PASSWORD:pass}
     slave1:
-      url: jdbc:postgresql://pgslave:5432/postgres
-      username: postgres
-      password: pass
+      url: ${SPRING_DATASOURCE_SLAVE1_URL:jdbc:postgresql://pgslave:5432/postgres}
+      username: ${SPRING_DATASOURCE_SLAVE1_USERNAME:postgres}
+      password: ${SPRING_DATASOURCE_SLAVE1_PASSWORD:pass}
     slave2:
-      url: jdbc:postgresql://pgasyncslave:5432/postgres
-      username: postgres
-      password: pass
-
+      url: ${SPRING_DATASOURCE_SLAVE2_URL:jdbc:postgresql://pgasyncslave:5432/postgres}
+      username: ${SPRING_DATASOURCE_SLAVE2_USERNAME:postgres}
+      password: ${SPRING_DATASOURCE_SLAVE2_PASSWORD:pass}
   sql:
     init:
       mode: always
+  data:
+    redis:
+      host: redis
+      port: 6379
