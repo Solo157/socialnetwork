@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+
+  master:
+    image: citusdata/citus:14.1.0
+    container_name: citus_master
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - pgnet
+
+  worker1:
+    image: citusdata/citus:14.1.0
+    container_name: citus_worker1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    depends_on:
+      - master
+    networks:
+      - pgnet
+
+  worker2:
+    image: citusdata/citus:14.1.0
+    container_name: citus_worker2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    depends_on:
+      - master
+    networks:
+      - pgnet
+
+  app:
+    image: ghcr.io/solo157/socialnetwork:latest
+    container_name: socialnetwork-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - master
+      - worker1
+      - worker2
+    networks:
+      - pgnet
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://master:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+networks:
+  pgnet:
