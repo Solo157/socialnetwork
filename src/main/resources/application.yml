@@ -1,20 +1,29 @@
 spring:
   application:
     name: socialnetwork
+
+  # для citus docker-compose
   datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://master:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
-    master:
-      url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://pgmaster:5432/postgres}
-      username: ${SPRING_DATASOURCE_MASTER_USERNAME:postgres}
-      password: ${SPRING_DATASOURCE_MASTER_PASSWORD:pass}
-    slave1:
-      url: ${SPRING_DATASOURCE_SLAVE1_URL:jdbc:postgresql://pgslave:5432/postgres}
-      username: ${SPRING_DATASOURCE_SLAVE1_USERNAME:postgres}
-      password: ${SPRING_DATASOURCE_SLAVE1_PASSWORD:pass}
-    slave2:
-      url: ${SPRING_DATASOURCE_SLAVE2_URL:jdbc:postgresql://pgasyncslave:5432/postgres}
-      username: ${SPRING_DATASOURCE_SLAVE2_USERNAME:postgres}
-      password: ${SPRING_DATASOURCE_SLAVE2_PASSWORD:pass}
+
+  # для корневого docker-compose
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    master:
+#      url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://pgmaster:5432/postgres}
+#      username: ${SPRING_DATASOURCE_MASTER_USERNAME:postgres}
+#      password: ${SPRING_DATASOURCE_MASTER_PASSWORD:pass}
+#    slave1:
+#      url: ${SPRING_DATASOURCE_SLAVE1_URL:jdbc:postgresql://pgslave:5432/postgres}
+#      username: ${SPRING_DATASOURCE_SLAVE1_USERNAME:postgres}
+#      password: ${SPRING_DATASOURCE_SLAVE1_PASSWORD:pass}
+#    slave2:
+#      url: ${SPRING_DATASOURCE_SLAVE2_URL:jdbc:postgresql://pgasyncslave:5432/postgres}
+#      username: ${SPRING_DATASOURCE_SLAVE2_USERNAME:postgres}
+#      password: ${SPRING_DATASOURCE_SLAVE2_PASSWORD:pass}
   sql:
     init:
       mode: always
