@@ -9,7 +9,7 @@
 
 <script>
 
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZmExYjE5YS05YTk4LTRiNTEtYWNiNi05NTU3MjdmZDk5MDkiLCJpYXQiOjE3ODUxNTQ3ODgsImV4cCI6MTc4NTI0MTE4OH0.3ioBrwQA6sHG9H0VfRmeh9ag6gO0VsYb9MonsbdQUb8";
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2U1NzkwNS1mN2I0LTQxOGQtOTdjZi1iOTc2MDIzZDQzYTMiLCJpYXQiOjE3ODUxNTQ5MDQsImV4cCI6MTc4NTI0MTMwNH0.1o29EP5jRabYPn8Qu0_D8bxvgx0N_XY7DfU0WoQQJW0";
 
     const socket = new SockJS(
         "http://84.252.140.21:8080/ws"
@@ -30,12 +30,10 @@
         client.subscribe(
             "/user/post/feed/posted",
             message => {
-
                 console.log(
                     "MESSAGE:",
                     message.body
                 );
-
             }
         );
     };

@@ -112,6 +112,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Friend not found"));
 
         userRepository.addFriend(currentUserId, friendId);
+        userRepository.addFriend(friendId, currentUserId);
 
         // удаляем из редиса пользователя, чтобы при получении ленты список постов друзей пересчитался заново
         feedCacheService.deleteValue(currentUserId);
