@@ -1,0 +1,19 @@
+package com.rabbit;
+
+import com.database.PostEntity;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class PostCreatedEvent {
+
+    private String authorId;
+    private PostEntity post;
+
+    public PostCreatedEvent(String authorId, PostEntity post) {
+        this.authorId = authorId;
+        this.post = post;
+    }
+
+}

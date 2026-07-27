@@ -20,14 +20,11 @@ public class RedisConfig {
      * произвольные Java-объекты.
      */
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
-        // Настраиваем ObjectMapper: поддержка Java 8 date/time и полиморфная десериализация
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule()); // поддержка LocalDateTime, LocalDate
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // даты как строки, не числа
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
+        ObjectMapper mapper = objectMapper.copy();
         mapper.activateDefaultTyping(
             mapper.getPolymorphicTypeValidator(),
-            ObjectMapper.DefaultTyping.NON_FINAL // в JSON будет тип класса (@class), чтобы при чтении восстановить PostEntity, а не LinkedHashMap
+            ObjectMapper.DefaultTyping.NON_FINAL
         );
 
         // Создаём JSON-сериализатор с настроенным ObjectMapper

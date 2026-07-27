@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class RedisService {
+public class FeedCacheService {
 
     private static final int MAX_FEED_SIZE = 1000;
     private static final long TTL_MINUTES = 3;

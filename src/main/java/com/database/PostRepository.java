@@ -64,7 +64,11 @@ public class PostRepository {
         }
     }
 
-    public void update(String id, String text) {
+    public void update(PostEntity post) {
+        update(post.getId(), post.getText());
+    }
+
+    private void update(String id, String text) {
         String sql = "UPDATE posts SET text = ? WHERE id = ?";
 
         try (Connection connection = dataSource.getConnection();
