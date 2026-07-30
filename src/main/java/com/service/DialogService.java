@@ -1,15 +1,11 @@
 package com.service;
 
 import com.api.DialogMessageResponse;
-import com.database.DialogEntity;
 import com.database.DialogMessageEntity;
-import com.database.DialogMessageRepository;
-import com.database.DialogRepository;
 import com.database.UserRepository;
 import com.dto.SendDialogMessageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,11 +15,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DialogService {
 
-    private final DialogMessageRepository dialogMessageRepository;
-    private final DialogRepository dialogRepository;
+    private final DialogCacheService dialogCacheService;
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = false)
     public void sendMessage(String senderId, String receiverId, SendDialogMessageRequest request) {
         userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
@@ -39,20 +33,21 @@ public class DialogService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        dialogMessageRepository.save(message);
+        System.out.println("sendMessage " + message.getDialogId() + " " + message.getText());
+
+        dialogCacheService.addMessage(dialogId, message);
     }
 
-    @Transactional(readOnly = false)
     public List<DialogMessageResponse> listMessages(String senderId, String receiverId) {
         userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-        String dialogId = findDialogId(senderId, receiverId);
+        String dialogId = dialogCacheService.getDialogId(senderId, receiverId);
         if (dialogId == null) {
             return List.of();
         }
 
-        return dialogMessageRepository.findByDialogId(dialogId)
+        return dialogCacheService.getMessages(dialogId)
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -70,25 +65,14 @@ public class DialogService {
     }
 
     private String findOrCreateDialogId(String userId1, String userId2) {
-        return dialogRepository.findByParticipants(userId1, userId2)
-                .map(DialogEntity::getId)
-                .orElseGet(() -> {
-                    String id = UUID.randomUUID().toString();
-                    DialogEntity dialog = DialogEntity.builder()
-                            .id(id)
-                            .user1Id(userId1)
-                            .user2Id(userId2)
-                            .createdAt(LocalDateTime.now())
-                            .build();
-                    dialogRepository.save(dialog);
-                    return id;
-                });
-    }
+        String existing = dialogCacheService.getDialogId(userId1, userId2);
+        if (existing != null) {
+            return existing;
+        }
 
-    private String findDialogId(String userId1, String userId2) {
-        return dialogRepository.findByParticipants(userId1, userId2)
-                .map(DialogEntity::getId)
-                .orElse(null);
+        String id = UUID.randomUUID().toString();
+        dialogCacheService.saveDialogId(userId1, userId2, id);
+        return id;
     }
 
 }
