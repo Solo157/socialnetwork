@@ -2,8 +2,8 @@ package com.api;
 
 import com.dto.RegisterUserRequest;
 import com.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -38,7 +38,6 @@ public class UserController {
 
     /**
      * Поиск по фамилии и имени пользователя.
-     * @return
      */
     @GetMapping("/search")
     public List<UserResponse> search(@RequestParam("first_name") String firstName,
@@ -50,8 +49,8 @@ public class UserController {
      * Установить друга пользователя.
      */
     @PutMapping("/friend/set/{user_id}")
-    public void setFriend(@PathVariable("user_id") String userId, HttpServletRequest request) {
-        String currentUserId = (String) request.getAttribute("user_id");
+    public void setFriend(@PathVariable("user_id") String userId, Authentication authentication) {
+        String currentUserId = authentication.getName();
         if (currentUserId == null) {
             throw new RuntimeException("Unauthorized");
         }
@@ -63,8 +62,8 @@ public class UserController {
      * Удалить друга пользователя.
      */
     @PutMapping("/friend/delete/{user_id}")
-    public void deleteFriend(@PathVariable("user_id") String userId, HttpServletRequest request) {
-        String currentUserId = (String) request.getAttribute("user_id");
+    public void deleteFriend(@PathVariable("user_id") String userId, Authentication authentication) {
+        String currentUserId = authentication.getName();
         if (currentUserId == null) {
             throw new RuntimeException("Unauthorized");
         }

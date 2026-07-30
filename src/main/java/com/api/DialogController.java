@@ -2,11 +2,11 @@ package com.api;
 
 import com.dto.SendDialogMessageRequest;
 import com.service.DialogService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +18,9 @@ public class DialogController {
     @PostMapping("/{user_id}/send")
     public void send(@PathVariable String user_id,
                      @RequestBody SendDialogMessageRequest request,
-                     HttpServletRequest httpRequest) {
-        String senderId = (String) httpRequest.getAttribute("user_id");
+                     Authentication authentication) {
+
+        String senderId = authentication.getName();
         if (senderId == null) {
             throw new RuntimeException("Unauthorized");
         }
@@ -28,9 +29,8 @@ public class DialogController {
     }
 
     @GetMapping("/{user_id}/list")
-    public List<DialogMessageResponse> list(@PathVariable String user_id,
-                                            HttpServletRequest httpRequest) {
-        String senderId = (String) httpRequest.getAttribute("user_id");
+    public List<DialogMessageResponse> list(@PathVariable String user_id, Authentication authentication) {
+        String senderId = authentication.getName();
         if (senderId == null) {
             throw new RuntimeException("Unauthorized");
         }

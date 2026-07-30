@@ -1,26 +1,28 @@
 package com.service;
 
+import com.adapter.PostEventSender;
 import com.api.PostResponse;
 import com.database.PostEntity;
 import com.database.PostRepository;
-import com.database.UserRepository;
 import com.dto.CreatePostRequest;
 import com.dto.UpdatePostRequest;
+import com.rabbit.PostCreatedEvent;
+import com.rabbit.PostUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
-    private final RedisService redisService;
+    private final UserService userService;
+    private final FeedCacheService feedCacheService;
+    private final PostEventSender postEventSender;
 
     @Transactional(readOnly = false)
     public String create(String authorId, CreatePostRequest request) {
@@ -35,21 +37,22 @@ public class PostService {
 
         postRepository.save(post);
 
-        addToFeedsOfUsersWhoFriend(authorId, post);
+        PostCreatedEvent event = new PostCreatedEvent(authorId, post);
+        postEventSender.sendPostCreatedEvent(event);
 
         return id;
     }
 
     @Transactional(readOnly = false)
     public void update(UpdatePostRequest request) {
-        PostEntity updated = postRepository.findById(request.getId())
+        PostEntity updatedPost = postRepository.findById(request.getId())
                 .orElseThrow(() -> new RuntimeException("Post not found"));
 
-        updated.setText(request.getText());
+        updatedPost.setText(request.getText());
+        postRepository.update(updatedPost);
 
-        postRepository.update(request.getId(), request.getText());
-
-        updateInFeedsOfUsersWhoFriend(updated.getAuthorId(), updated);
+        PostUpdatedEvent postUpdatedEvent = new PostUpdatedEvent(updatedPost.getAuthorId(), updatedPost);
+        postEventSender.sendPostUpdatedEvent(postUpdatedEvent);
     }
 
     @Transactional(readOnly = false)
@@ -72,12 +75,12 @@ public class PostService {
 
     @Transactional(readOnly = false)
     public List<PostResponse> getFeed(String userId, int offset, int limit) {
-        List<PostEntity> cached = redisService.getValue(userId);
+        List<PostEntity> cached = feedCacheService.getValue(userId);
         if (cached == null || cached.isEmpty()) {
             System.out.println("Кэш пустой, первый запрос");
             cached = getFeedFromDB(userId);
             if (!cached.isEmpty()) {
-                redisService.saveValue(userId, cached);
+                feedCacheService.saveValue(userId, cached);
             }
             System.out.println("Кэш обновлен из БД, количество записей: " + cached.size());
         } else {
@@ -92,11 +95,12 @@ public class PostService {
                 .toList();
     }
 
-    @Transactional(readOnly = false)
-    public List<PostEntity> getFeedFromDB(String userId) {
-        List<String> friendIds = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"))
-                .getFriends();
+    private List<PostEntity> getFeedFromDB(String userId) {
+//        List<String> friendIds = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("User not found"))
+//                .getFriends();
+        List<String> friendIds = userService.getUsersWhoFriend(userId);
+
         if (friendIds == null || friendIds.isEmpty()) {
             return List.of();
         }
@@ -113,25 +117,21 @@ public class PostService {
                 .build();
     }
 
-    private List<String> getUsersWhoFriend(String authorId) {
-        return userRepository.findUsersWithFriend(authorId);
-    }
-
     /**
      * Добавляем для всех друзей данный пост.
      */
-    private void addToFeedsOfUsersWhoFriend(String authorId, PostEntity post) {
-        for (String uid : getUsersWhoFriend(authorId)) {
-            redisService.addValue(uid, post);
+    public void addToFeedsOfUsersWhoFriend(PostEntity post, List<String> friends) {
+        for (String uid : friends) {
+            feedCacheService.addValue(uid, post);
         }
     }
 
     /**
      * Обновляем для всех друзей пост.
      */
-    private void updateInFeedsOfUsersWhoFriend(String authorId, PostEntity post) {
-        for (String uid : getUsersWhoFriend(authorId)) {
-            redisService.updateValue(uid, post);
+    public void updateInFeedsOfUsersWhoFriend(PostEntity post, List<String> friends) {
+        for (String uid : friends) {
+            feedCacheService.updateValue(uid, post);
         }
     }
 
@@ -139,8 +139,8 @@ public class PostService {
      * Удаляем у всех друзей пользователя данный пост.
      */
     private void removeFromFeedsOfUsersWhoFriend(String authorId, String postId) {
-        for (String uid : getUsersWhoFriend(authorId)) {
-            redisService.removeValue(uid, postId);
+        for (String uid : userService.getUsersWhoFriend(authorId)) {
+            feedCacheService.removeValue(uid, postId);
         }
     }
 

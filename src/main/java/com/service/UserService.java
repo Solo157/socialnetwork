@@ -17,7 +17,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final RedisService redisService;
+    private final FeedCacheService feedCacheService;
 
     /**
      * Зарегистрировать пользователя.
@@ -112,9 +112,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Friend not found"));
 
         userRepository.addFriend(currentUserId, friendId);
+        userRepository.addFriend(friendId, currentUserId);
 
         // удаляем из редиса пользователя, чтобы при получении ленты список постов друзей пересчитался заново
-        redisService.deleteValue(currentUserId);
+        feedCacheService.deleteValue(currentUserId);
     }
 
     @Transactional(readOnly = false)
@@ -124,7 +125,11 @@ public class UserService {
         userRepository.removeFriend(currentUserId, friendId);
 
         // удаляем из редиса пользователя, чтобы при получении ленты список постов друзей пересчитался заново
-        redisService.deleteValue(currentUserId);
+        feedCacheService.deleteValue(currentUserId);
+    }
+
+    public List<String> getUsersWhoFriend(String authorId) {
+        return userRepository.findUsersWithFriend(authorId);
     }
 
 }
