@@ -3,10 +3,12 @@ package com.service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
+import java.util.*;
 
 @Service
 public class JwtService {
@@ -47,4 +49,17 @@ public class JwtService {
                 .getBody()
                 .getSubject();
     }
+
+    /**
+     * Получить объект аутентификации для спринг секьюрити. Нужен, чтобы спринг понимал, что такой-то пользователь
+     * сейчас аутентифицирован, т.е. находится в контексте спринга.
+     */
+    public Authentication getAuthentication(String token) {
+        return new UsernamePasswordAuthenticationToken(
+                getUserIdFromToken(token),
+                null,
+                List.of()
+        );
+    }
+
 }

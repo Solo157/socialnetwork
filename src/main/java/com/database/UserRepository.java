@@ -134,23 +134,23 @@ public class UserRepository {
 
     public List<String> findUsersWithFriend(String friendId) {
         String sql = "SELECT id FROM users WHERE friends LIKE ?";
+
         List<String> ids = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, "\"" + friendId + "\"");
+            ps.setString(1, "%\"" + friendId + "\"%");
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ids.add(rs.getString("id"));
             }
 
+            return ids;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return ids;
     }
 
     public List<UserEntity> search(String firstName, String secondName) {
@@ -214,7 +214,8 @@ public class UserRepository {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(json, new TypeReference<List<String>>(){});
+            return mapper.readValue(json, new TypeReference<List<String>>() {
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

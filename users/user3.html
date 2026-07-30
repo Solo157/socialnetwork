@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs/bundles/stomp.umd.min.js"></script>
+</head>
+
+<body>
+
+<script>
+
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyY2U1NzkwNS1mN2I0LTQxOGQtOTdjZi1iOTc2MDIzZDQzYTMiLCJpYXQiOjE3ODUxNTQ5MDQsImV4cCI6MTc4NTI0MTMwNH0.1o29EP5jRabYPn8Qu0_D8bxvgx0N_XY7DfU0WoQQJW0";
+
+    const socket = new SockJS(
+        "http://84.252.140.21:8080/ws"
+    );
+
+    const client = new StompJs.Client({
+        webSocketFactory: () => socket,
+        connectHeaders: {
+            Authorization: "Bearer " + token
+        },
+        debug: function (str) {
+            console.log(str);
+        }
+    });
+
+    client.onConnect = () => {
+        console.log("CONNECTED");
+        client.subscribe(
+            "/user/post/feed/posted",
+            message => {
+                console.log(
+                    "MESSAGE:",
+                    message.body
+                );
+            }
+        );
+    };
+
+    client.activate();
+</script>
+
+</body>
+</html>
