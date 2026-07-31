@@ -22,7 +22,7 @@ public class DialogService {
         userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-        String dialogId = findOrCreateDialogId(senderId, receiverId);
+        String dialogId = dialogCacheService.findOrCreateDialogId(senderId, receiverId);
 
         DialogMessageEntity message = DialogMessageEntity.builder()
                 .id(UUID.randomUUID().toString())
@@ -33,8 +33,6 @@ public class DialogService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        System.out.println("sendMessage " + message.getDialogId() + " " + message.getText());
-
         dialogCacheService.addMessage(dialogId, message);
     }
 
@@ -42,12 +40,7 @@ public class DialogService {
         userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-        String dialogId = dialogCacheService.getDialogId(senderId, receiverId);
-        if (dialogId == null) {
-            return List.of();
-        }
-
-        return dialogCacheService.getMessages(dialogId)
+        return dialogCacheService.getMessages(senderId, receiverId)
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -62,17 +55,6 @@ public class DialogService {
                 .text(message.getText())
                 .createdAt(message.getCreatedAt())
                 .build();
-    }
-
-    private String findOrCreateDialogId(String userId1, String userId2) {
-        String existing = dialogCacheService.getDialogId(userId1, userId2);
-        if (existing != null) {
-            return existing;
-        }
-
-        String id = UUID.randomUUID().toString();
-        dialogCacheService.saveDialogId(userId1, userId2, id);
-        return id;
     }
 
 }

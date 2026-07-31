@@ -1,14 +1,13 @@
 package com.service;
 
 import com.database.DialogMessageEntity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,20 +21,56 @@ public class DialogCacheService {
     private static final String MESSAGES_KEY_PREFIX = "dialog:messages:";
     private static final String DIALOG_PAIR_KEY_PREFIX = "dialog:pair:";
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, String> stringRedisTemplate;
+    private final RedisScript<String> getDialogIdScript;
+    private final RedisScript<String> findOrCreateDialogScript;
+    private final RedisScript<String> addMessageScript;
+    private final RedisScript<List> getMessagesScript;
+
+    private final ObjectMapper objectMapper;
 
     /**
      * Получить сообщения диалога.
      */
-    public List<DialogMessageEntity> getMessages(String dialogId) {
-        String key = MESSAGES_KEY_PREFIX + dialogId;
-
-        Object obj = redisTemplate.opsForValue().get(key);
-        if (obj instanceof List) {
-            return (List<DialogMessageEntity>) obj;
+    public List<DialogMessageEntity> getMessages(String senderId, String receiverId) {
+        String dialogId = getDialogId(senderId, receiverId);
+        if (dialogId == null) {
+            return List.of();
         }
 
-        return new ArrayList<>();
+        String key = MESSAGES_KEY_PREFIX + dialogId;
+
+        List<String> result;
+        try {
+            result = (List<String>) stringRedisTemplate.execute(
+                    getMessagesScript,
+                    List.of(key)
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get messages from Redis", e);
+        }
+
+
+        if (result.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // в Redis Set данные хранятся, как значение, timestampt, значение,timestampt.. поэтому фильтруем только нужные
+        // значения, т.е. оставляем только сообщения нечетные
+        List<String> messages = new ArrayList<>();
+        for (int i = 0; i < result.size(); i += 2) {
+            messages.add(result.get(i));
+        }
+
+        List<DialogMessageEntity> entities = new ArrayList<>();
+        for (String json : messages) {
+            try {
+                entities.add(objectMapper.readValue(json, DialogMessageEntity.class));
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to deserialize message", e);
+            }
+        }
+        return entities;
     }
 
     /**
@@ -44,57 +79,49 @@ public class DialogCacheService {
     public void addMessage(String dialogId, DialogMessageEntity message) {
         String key = MESSAGES_KEY_PREFIX + dialogId;
 
-        List<DialogMessageEntity> messages = getMessagesFromRedis(dialogId);
-        messages.add(message);
-        messages.sort(Comparator.comparing(DialogMessageEntity::getCreatedAt));
-
-        redisTemplate.opsForValue().set(key, messages, TTL_MINUTES, TimeUnit.MINUTES);
+        try {
+            stringRedisTemplate.execute(
+                    addMessageScript,
+                    List.of(key),
+                    String.valueOf(message.getCreatedAt().atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()),
+                    objectMapper.writeValueAsString(message),
+                    String.valueOf(TTL_MINUTES * 60)
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to add message to Redis", e);
+        }
     }
 
     /**
      * Найти и получить идентификатор диалога по идентификаторам пользователей. Идентификатор диалога может храниться
      * под разными комбинациями связки идентификаторов пользователей.
      */
-    public String getDialogId(String userId1, String userId2) {
+    private String getDialogId(String userId1, String userId2) {
         String key1 = DIALOG_PAIR_KEY_PREFIX + userId1 + ":" + userId2;
         String key2 = DIALOG_PAIR_KEY_PREFIX + userId2 + ":" + userId1;
 
-        Object obj1 = redisTemplate.opsForValue().get(key1);
-        if (obj1 instanceof String) {
-            return (String) obj1;
+        try {
+            return stringRedisTemplate.execute(getDialogIdScript, List.of(key1, key2));
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get dialogId from Redis", e);
         }
-
-        Object obj2 = redisTemplate.opsForValue().get(key2);
-        if (obj2 instanceof String) {
-            return (String) obj2;
-        }
-
-        return null;
     }
 
-    /**
-     * Сохранить идентификатор диалога. Используется разные связки идентификаторов пользователей для хранения.
-     */
-    public void saveDialogId(String userId1, String userId2, String dialogId) {
+    public String findOrCreateDialogId(String userId1, String userId2) {
         String key1 = DIALOG_PAIR_KEY_PREFIX + userId1 + ":" + userId2;
         String key2 = DIALOG_PAIR_KEY_PREFIX + userId2 + ":" + userId1;
+        String randomDialogId = UUID.randomUUID().toString();
 
-        redisTemplate.opsForValue().set(key1, dialogId, TTL_MINUTES, TimeUnit.MINUTES);
-        redisTemplate.opsForValue().set(key2, dialogId, TTL_MINUTES, TimeUnit.MINUTES);
-    }
-
-    /**
-     * Получить все сообщения по диалогу.
-     */
-    private List<DialogMessageEntity> getMessagesFromRedis(String dialogId) {
-        String key = MESSAGES_KEY_PREFIX + dialogId;
-
-        Object obj = redisTemplate.opsForValue().get(key);
-        if (obj instanceof List) {
-            return (List<DialogMessageEntity>) obj;
+        try {
+            return stringRedisTemplate.execute(
+                    findOrCreateDialogScript,
+                    List.of(key1, key2),
+                    randomDialogId,
+                    String.valueOf(TTL_MINUTES * 60)
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to find or create dialog in Redis", e);
         }
-
-        return new ArrayList<>();
     }
 
 }

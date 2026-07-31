@@ -1,14 +1,16 @@
 package com.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.util.*;
 
 @Configuration
 public class RedisConfig {
@@ -21,29 +23,59 @@ public class RedisConfig {
      */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
-        ObjectMapper mapper = objectMapper.copy();
-        mapper.activateDefaultTyping(
-            mapper.getPolymorphicTypeValidator(),
-            ObjectMapper.DefaultTyping.NON_FINAL
-        );
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
 
-        // Создаём JSON-сериализатор с настроенным ObjectMapper
-        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        serializer.setObjectMapper(mapper);
-
-        // Инициализируем шаблон и привязываем подключение к Redis
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
-
-        // Ключи хранятся как строки
         template.setKeySerializer(new StringRedisSerializer());
-        // Значения хранятся в формате JSON (List<PostEntity> и т.д.)
         template.setValueSerializer(serializer);
-
-        // Завершаем конфигурацию: применяем сериализаторы
         template.afterPropertiesSet();
 
         return template;
+    }
+
+    /**
+     * Бин скрипта на получение идентификатора диалога.
+     */
+    @Bean
+    public RedisScript<String> getDialogIdScript() {
+        return RedisScript.of(
+                new ClassPathResource("redis/get_dialog_id.lua"),
+                String.class
+        );
+    }
+
+    /**
+     * Бин скрипта на поиск или создание диалога.
+     */
+    @Bean
+    public RedisScript<String> findOrCreateDialogScript() {
+        return RedisScript.of(
+                new ClassPathResource("redis/find_or_create_dialog.lua"),
+                String.class
+        );
+    }
+
+    /**
+     * Бин скрипта на добавление сообщения в диалог.
+     */
+    @Bean
+    public RedisScript<String> addMessageScript() {
+        return RedisScript.of(
+                new ClassPathResource("redis/add_message.lua"),
+                String.class
+        );
+    }
+
+    /**
+     * Бин скрипта на получение всех сообщений диалога.
+     */
+    @Bean
+    public RedisScript<List> getMessagesScript() {
+        return RedisScript.of(
+                new ClassPathResource("redis/get_messages.lua"),
+                List.class
+        );
     }
 
 }
