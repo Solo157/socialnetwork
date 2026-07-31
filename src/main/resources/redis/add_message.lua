@@ -1,7 +1,8 @@
 local key = KEYS[1]
-local timestamp = ARGV[1]
-local message = ARGV[2]
-local ttl = ARGV[3]
 
-redis.call('ZADD', key, timestamp, message)
+local message = ARGV[1]
+
+local ttl = ARGV[2]
+
+redis.call('RPUSH', key, message)
 redis.call('EXPIRE', key, ttl)

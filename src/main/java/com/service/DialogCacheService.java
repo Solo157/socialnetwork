@@ -55,15 +55,8 @@ public class DialogCacheService {
             return Collections.emptyList();
         }
 
-        // в Redis Set данные хранятся, как значение, timestampt, значение,timestampt.. поэтому фильтруем только нужные
-        // значения, т.е. оставляем только сообщения нечетные
-        List<String> messages = new ArrayList<>();
-        for (int i = 0; i < result.size(); i += 2) {
-            messages.add(result.get(i));
-        }
-
         List<DialogMessageEntity> entities = new ArrayList<>();
-        for (String json : messages) {
+        for (String json : result) {
             try {
                 entities.add(objectMapper.readValue(json, DialogMessageEntity.class));
             } catch (Exception e) {
@@ -83,9 +76,10 @@ public class DialogCacheService {
             stringRedisTemplate.execute(
                     addMessageScript,
                     List.of(key),
-                    String.valueOf(message.getCreatedAt().atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()),
                     objectMapper.writeValueAsString(message),
-                    String.valueOf(TTL_MINUTES * 60)
+                    String.valueOf(
+                            TTL_MINUTES * 60
+                    )
             );
         } catch (Exception e) {
             throw new RuntimeException("Failed to add message to Redis", e);

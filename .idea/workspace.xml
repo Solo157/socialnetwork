@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3953fd0-9a18-4f18-b33a-8f06481988db" name="Changes" comment="Add redis for dialogs">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/redis/add_message.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/redis/find_or_create_dialog.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/redis/get_dialog_id.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/redis/get_messages.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/configuration/RedisConfig.java" afterDir="false" />
+    <list default="true" id="b3953fd0-9a18-4f18-b33a-8f06481988db" name="Changes" comment="Add redis for dialogs 3">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/service/DialogCacheService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/service/DialogCacheService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/DialogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/service/DialogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/redis/add_message.lua" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/redis/add_message.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/redis/get_messages.lua" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/redis/get_messages.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +116,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785379034344</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add redis for dialogs 3">
+      <option name="closed" value="true" />
+      <created>1785476230530</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1785476230530</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,6 +143,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add redis for dialogs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add redis for dialogs" />
+    <MESSAGE value="Add redis for dialogs 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add redis for dialogs 3" />
   </component>
 </project>

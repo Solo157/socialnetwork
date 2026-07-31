@@ -1,3 +1,3 @@
 local key = KEYS[1]
 
-return redis.call('ZRANGEBYSCORE', key, '-inf', '+inf', 'WITHSCORES')
+return redis.call('LRANGE', key, 0, -1)
