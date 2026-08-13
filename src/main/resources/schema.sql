@@ -23,3 +23,13 @@ CREATE TABLE IF NOT EXISTS dialogs (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
     );
+
+CREATE TABLE IF NOT EXISTS dialog_messages (
+    id VARCHAR(255) NOT NULL,
+    dialog_id VARCHAR(255) NOT NULL,
+    sender_id VARCHAR(255) NOT NULL,
+    receiver_id VARCHAR(255) NOT NULL,
+    text TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (dialog_id, id)
+);
