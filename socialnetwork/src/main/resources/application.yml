@@ -2,23 +2,10 @@ spring:
   application:
     name: socialnetwork
 
-  # для citus docker-compose
-  #  datasource:
-  #    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://master:5432/postgres}
-  #    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-  #    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
-  #    driver-class-name: org.postgresql.Driver
-
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: admin
-    password: admin
-
   # для корневого docker-compose
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://master:5432/postgres}
+    url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://pgmaster:5432/postgres}
     username: ${SPRING_DATASOURCE_MASTER_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_MASTER_PASSWORD:pass}
   #    slave1:
@@ -29,10 +16,34 @@ spring:
   #      url: ${SPRING_DATASOURCE_SLAVE2_URL:jdbc:postgresql://pgasyncslave:5432/postgres}
   #      username: ${SPRING_DATASOURCE_SLAVE2_USERNAME:postgres}
   #      password: ${SPRING_DATASOURCE_SLAVE2_PASSWORD:pass}
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: admin
+    password: admin
+
   sql:
     init:
       mode: always
+
   data:
     redis:
       host: redis
       port: 6379
+
+server:
+  port: 8080
+
+# для citus docker-compose
+#  datasource:
+#    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://master:5432/postgres}
+#    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+#    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+#    driver-class-name: org.postgresql.Driver
+
+grpc:
+  client:
+    dialogService:
+      address: static://dialog-service:9090
+      negotiation-type: plaintext

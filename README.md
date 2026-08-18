@@ -69,3 +69,11 @@ docker compose down - удалить образы compose.
 после завершения копирования coordinator переключает маршрутизацию на новую копию;
 старая копия удаляется.
 Таким образом нет необходимости останавливать приложение.
+
+
+
+unset MAVEN_OPTS 
+scp -i ~/.ssh/my_otus_id_rsa docker-compose.yml ubuntu@84.252.140.21:socialnetwork/docker-compose.yml
+docker compose down
+docker compose up -d --pull always
+MAVEN_OPTS="" mvn -pl socialnetwork,dialog-service jib:build

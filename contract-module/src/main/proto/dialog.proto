@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package dialog;
+
+option java_multiple_files = true;
+option java_package = "com.socialnetwork.dialog.grpc";
+option java_outer_classname = "DialogProto";
+
+service DialogService {
+
+  rpc sendMessage (SendMessageRequest) returns (SendMessageResponse);
+
+  rpc listMessages (ListMessagesRequest) returns (ListMessagesResponse);
+}
+
+message SendMessageRequest {
+  string senderId = 1;
+  string receiverId = 2;
+  string text = 3;
+}
+
+message SendMessageResponse {
+  string message = 1;
+}
+
+message ListMessagesRequest {
+  string senderId = 1;
+  string receiverId = 2;
+}
+
+message Message {
+  string id = 1;
+  string dialogId = 2;
+  string senderId = 3;
+  string receiverId = 4;
+  string text = 5;
+  string createdAt = 6;
+}
+
+message ListMessagesResponse {
+  repeated Message messages = 1;
+}

@@ -4,14 +4,270 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3953fd0-9a18-4f18-b33a-8f06481988db" name="Changes" comment="Add redis for dialogs 4" />
+    <list default="true" id="b3953fd0-9a18-4f18-b33a-8f06481988db" name="Changes" comment="Add redis for dialogs 4">
+      <change afterPath="$PROJECT_DIR$/contract-module/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/src/main/proto/dialog.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogProto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$AsyncService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceBaseDescriptorSupplier.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceBlockingStub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceBlockingV2Stub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceFileDescriptorSupplier.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceFutureStub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceImplBase.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceMethodDescriptorSupplier.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$DialogServiceStub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc$MethodHandlers.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/DialogServiceGrpc.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageRequest$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageRequest$Builder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageRequestOrBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageResponse$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageResponse$Builder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/com/socialnetwork/dialog/grpc/SendMessageResponseOrBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/classes/dialog.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/generated-sources/protobuf/grpc-java/com/socialnetwork/dialog/grpc/DialogServiceGrpc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/generated-sources/protobuf/java/com/socialnetwork/dialog/grpc/DialogProto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/generated-sources/protobuf/java/com/socialnetwork/dialog/grpc/SendMessageRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/generated-sources/protobuf/java/com/socialnetwork/dialog/grpc/SendMessageRequestOrBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/generated-sources/protobuf/java/com/socialnetwork/dialog/grpc/SendMessageResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/generated-sources/protobuf/java/com/socialnetwork/dialog/grpc/SendMessageResponseOrBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/any.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/api.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/descriptor.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/duration.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/empty.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/field_mask.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/java_features.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/source_context.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/struct.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/timestamp.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/type.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/230cf940c302c3d110e5727ba73bfcfb/google/protobuf/wrappers.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/annotations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/auth.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/backend.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/billing.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/client.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/config_change.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/consumer.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/context.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/control.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/distribution.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/documentation.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/endpoint.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/error_reason.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/field_behavior.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/field_info.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/http.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/httpbody.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/label.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/launch_stage.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/log.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/logging.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/metric.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/monitored_resource.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/monitoring.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/policy.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/quota.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/resource.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/routing.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/service.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/source_info.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/system_parameter.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/usage.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/api/visibility.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/apps/card/v1/card.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/cloud/audit/audit_log.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/cloud/extended_operations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/cloud/location/locations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/geo/type/viewport.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/logging/type/http_request.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/logging/type/log_severity.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/longrunning/operations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/rpc/code.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/rpc/context/attribute_context.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/rpc/context/audit_context.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/rpc/error_details.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/rpc/status.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/shopping/type/types.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/calendar_period.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/color.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/date.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/datetime.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/dayofweek.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/decimal.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/expr.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/fraction.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/interval.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/latlng.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/localized_text.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/money.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/month.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/phone_number.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/postal_address.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/quaternion.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-dependencies/7e44ff9498f23cea393c78ae2a71f505/google/type/timeofday.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-plugins/protoc-4.31.1-linux-x86_64.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/contract-module/target/protoc-plugins/protoc-gen-grpc-java-1.75.0-linux-x86_64.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/dialog-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/DialogServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/grpc/DialogServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dialog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/RequestIdFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/DialogMessageEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/DialogService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/SocialNetworkApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/adapter/PostEventHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/adapter/PostEventSender.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/AuthController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/DialogController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/DialogMessageResponse$DialogMessageResponseBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/DialogMessageResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/PostController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/PostResponse$PostResponseBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/PostResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/UserResponse$UserResponseBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/api/UserResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/configuration/DataSourceConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/configuration/JwtFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/configuration/RabbitConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/configuration/ReplicationRoutingDataSource.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/configuration/SecurityConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/configuration/WebSocketConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogEntity$DialogEntityBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogEntity$Fields.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogMessageEntity$DialogMessageEntityBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogMessageEntity$Fields.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogMessageEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogMessageRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/DialogRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/PostEntity$Fields.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/PostEntity$PostEntityBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/PostEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/PostRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/UserEntity$Fields.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/UserEntity$UserEntityBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/UserEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/UserRepository$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/database/UserRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/dto/CreatePostRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/dto/LoginRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/dto/RegisterUserRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/dto/SendDialogMessageRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/dto/UpdatePostRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/interceptors/JwtChannelInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/rabbit/PostCreatedEvent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/rabbit/PostUpdatedEvent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/service/DialogService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/service/FeedCacheService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/service/FeedMaterializationService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/service/FeedNotificationService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/service/JwtService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/service/PostService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/com/service/UserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/redis/add_message.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/redis/find_or_create_dialog.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/redis/get_dialog_id.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/redis/get_messages.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/classes/schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/socialnetwork/volumes/volumes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/citus/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/citus/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postman/Socialnetwork.postman_collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/postman/Socialnetwork.postman_collection.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/SocialNetworkApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/SocialNetworkApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/adapter/PostEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/adapter/PostEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/adapter/PostEventSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/adapter/PostEventSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/api/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/api/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/api/DialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/api/DialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/api/DialogMessageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/api/DialogMessageResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/api/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/api/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/api/PostResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/api/PostResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/api/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/api/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/api/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/api/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/config/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/DataSourceConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/DataSourceConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/RabbitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/RabbitConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/ReplicationRoutingDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/ReplicationRoutingDataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/configuration/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/WebSocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/DialogEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/DialogEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/DialogMessageEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/repository/DialogMessageEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/DialogMessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/DialogMessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/DialogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/DialogRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/PostEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/PostEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/PostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/database/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/database/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dto/CreatePostRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/dto/CreatePostRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/dto/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dto/RegisterUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/dto/RegisterUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dto/SendDialogMessageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/dto/SendDialogMessageRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dto/UpdatePostRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/dto/UpdatePostRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/interceptors/JwtChannelInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/interceptors/JwtChannelInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/rabbit/PostCreatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/rabbit/PostCreatedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/rabbit/PostUpdatedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/rabbit/PostUpdatedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/DialogCacheService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/service/DialogCacheService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/DialogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/service/DialogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/FeedCacheService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/FeedCacheService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/FeedMaterializationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/FeedMaterializationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/FeedNotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/FeedNotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/PostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/redis/add_message.lua" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/resources/redis/add_message.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/redis/find_or_create_dialog.lua" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/resources/redis/find_or_create_dialog.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/redis/get_dialog_id.lua" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/resources/redis/get_dialog_id.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/redis/get_messages.lua" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/resources/redis/get_messages.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/resources/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/user1.html" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/users/user1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/user2.html" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/users/user2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/user3.html" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/users/user3.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="72" />
+    <option name="cachedIndexableFilesCount" value="74" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -32,6 +288,10 @@
     &quot;url&quot;: &quot;https://github.com/Solo157/socialnetwork.git&quot;,
     &quot;accountId&quot;: &quot;5676f0af-6f96-45a0-b15f-65dfbb26af48&quot;
   }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
 }</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -58,34 +318,92 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.DialogServiceApplication (1).executor": "Run",
+    "Spring Boot.DialogServiceApplication.executor": "Run",
+    "Spring Boot.SocialNetworkApplication.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "inmemory",
+    "git-widget-placeholder": "main",
     "git.auto.fetch.suggestion.counter": "1",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/kirill/IdeaProjects/studying/OTUS/socialnetwork/dialog-service/src/main/java/org/services",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "ml.llm.LLMThirdPartyAiProvidersConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="socialnetwork" />
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dialog-service/src/main/java/org/services" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/socialnetwork/src/main" />
+      <recent name="$PROJECT_DIR$/dialog-service/src/main/proto" />
+      <recent name="$PROJECT_DIR$/dialog-service/src/main/resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.services" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <map>
+              <entry key="DialogServiceApplication" value="STOPPED" />
+              <entry key="SocialNetworkApplication" value="FAILED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SocialNetworkApplication">
+    <configuration name="DialogServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="dialog-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.dialog.DialogServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="socialnetwork" />
-      <option name="filePath" />
-      <method v="2" />
+    <configuration name="DialogServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="dialog-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.services.DialogServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SocialNetworkApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="socialnetwork" />
@@ -94,6 +412,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Spring Boot.DialogServiceApplication (1)" />
+      <item itemvalue="Spring Boot.SocialNetworkApplication" />
+      <item itemvalue="Spring Boot.DialogServiceApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.DialogServiceApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -103,6 +431,7 @@
       <option name="presentableId" value="Default" />
       <updated>1785292168129</updated>
       <workItem from="1785292169627" duration="89000" />
+      <workItem from="1787035459466" duration="8311000" />
     </task>
     <task id="LOCAL-00001" summary="Add redis for dialogs">
       <option name="closed" value="true" />
@@ -150,5 +479,9 @@
     <MESSAGE value="Add redis for dialogs 3" />
     <MESSAGE value="Add redis for dialogs 4" />
     <option name="LAST_COMMIT_MESSAGE" value="Add redis for dialogs 4" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

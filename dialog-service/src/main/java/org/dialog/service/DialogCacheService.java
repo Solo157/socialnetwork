@@ -1,8 +1,8 @@
-package com.service;
+package org.dialog.service;
 
-import com.database.DialogMessageEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.dialog.repository.DialogMessageEntity;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
