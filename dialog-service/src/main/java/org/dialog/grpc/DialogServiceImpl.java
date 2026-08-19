@@ -34,6 +34,7 @@ public class DialogServiceImpl extends DialogServiceGrpc.DialogServiceImplBase {
                 .setMessage("Message received")
                 .build();
 
+        // отдаем ответ и завершаем gRPC вызов
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -41,14 +42,13 @@ public class DialogServiceImpl extends DialogServiceGrpc.DialogServiceImplBase {
     @Override
     public void listMessages(ListMessagesRequest request, StreamObserver<ListMessagesResponse> responseObserver) {
         String requestId = MDC.get("requestId");
-        System.out.println(
-                "Received: requestId -> " + requestId + " SenderId -> " + request.getSenderId() + " -> " + request.getReceiverId()
-        );
+        System.out.println("Received: requestId -> " + requestId + " SenderId -> " + request.getSenderId() + " -> " + request.getReceiverId());
 
         var response = ListMessagesResponse.newBuilder()
                 .addAllMessages(dialogService.listMessages(request.getSenderId(), request.getReceiverId()))
                 .build();
 
+        // отдаем ответ и завершаем gRPC вызов
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

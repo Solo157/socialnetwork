@@ -11,12 +11,19 @@ import net.devh.boot.grpc.client.interceptor.GrpcGlobalClientInterceptor;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
+/**
+ * Интерсептор предназначен для отлавливания REQUEST_ID_METADATA_KEY из MDC и добавления его в хедеры при запросе через
+ * gRPC.
+ */
 @Component
 @GrpcGlobalClientInterceptor
 public class RequestIdClientInterceptor implements ClientInterceptor {
 
     public static final String REQUEST_ID_METADATA_KEY = "x-request-id";
 
+    /**
+     * Перехватывает каждый исходящий вызов gRPC и кладет в метаданные REQUEST_ID_METADATA_KEY.
+     */
     @Override
     public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
             MethodDescriptor<ReqT, RespT> method,

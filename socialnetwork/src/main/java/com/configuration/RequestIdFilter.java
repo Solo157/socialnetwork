@@ -11,6 +11,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.UUID;
 
+/**
+ * С помощью данного фильтра перехватываем REQUEST_ID_HEADER в запросе и его связываем с потоком запроса, помещая в MDC.
+ */
 @Component
 public class RequestIdFilter extends OncePerRequestFilter {
 

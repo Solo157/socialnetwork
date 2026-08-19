@@ -1,79 +1,33 @@
 # socialnetwork
 
+О проекте. socialnetwork имеет несколько модулей:
+1. [contract-module](contract-module) Модуль, который не является микросервисом, он хранит только некоторые общие данные
+для остальных микросервисов. На текущий момент хранит файл [dialog.proto](contract-module/src/main/proto/dialog.proto) 
+описывающий сущности/методы для работы gRPC.
+2. [dialog-service](dialog-service) Микросервис, реализующий хранение диалогов между пользователями. На текущий момент
+для хранения использует Redis. 
+3. [socialnetwork](socialnetwork) Основном микросервис (скорее еще нераспилинный монолит). Хранит всю основную логику
+по функционалу социальной сети.
+
+Сервис socialnetwork и dialog-service общаются между собой через gRPC сервер, который поднимается на стороне dialog-service,
+а socialnetwork является его клиентом. 
+При запросах, связанных с диалогами, передается x-request-id, который реализует сквозное логирование между данными
+микросервисами.
+
 ----
 КОМПИЛЯЦИЯ И ПУШИНГ ОБРАЗА В РЕПОЗИТОРИЙ:
 По умолчанию этого делать не нужно, т.к. образы берутся из github.
 Если нужно скомпилировать и запушить в docker registry:
 1. registry прописать в главном pom и пароль установить в .m2/settings.xml
 2. Компилируем микросервисы: mvn clean install
-3. Пушим в докер registry: mvn jib:build
-
-docker compose down - удалить образы compose.
+3. Пушим в докер registry: MAVEN_OPTS="" mvn -pl socialnetwork,dialog-service jib:build
 
 ЗАПУСК ПРИЛОЖЕНИЯ:
 1. В корневой директории проекта выполнить: docker compose up -d --pull always
 2. В коллекции /postman проверить работу ендпоинтов.
 
-
-----
-ЗАПУСК ПРИЛОЖЕНИЯ С ШАРДИРОВАННОЙ БД
-1. В корневой директории проекта выполнить: docker compose -f citus/docker-compose.yml up -d --pull always
-поднимаются все воркеры, мастер, инстанс приложения.
-2. Нужно создать таблицу и зарегистрировать ее, как распределенную таблицу со своим
-ключом шардирования. Это нужно сделать вручную, т.к. не используется миграционный инструмент (Flyway, Liquibase)
-Создание таблицы:
-2.1 Зайти в координатор: psql -h localhost -p 5432 -U postgres
-2.2 Добавить воркеров и координатора:
-   SELECT citus_set_coordinator_host('master', 5432);
-   SELECT citus_add_node('worker1', 5432);
-   SELECT citus_add_node('worker2', 5432);
-2.3
-   CREATE TABLE dialog_messages (
-   id VARCHAR(255) NOT NULL,
-   dialog_id VARCHAR(255) NOT NULL,
-   sender_id VARCHAR(255) NOT NULL,
-   receiver_id VARCHAR(255) NOT NULL,
-   text TEXT NOT NULL,
-   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   PRIMARY KEY (dialog_id, id)
-   );
-   SELECT create_distributed_table('dialog_messages', 'dialog_id');
-
-В качестве ключа шардирования выбран dialog_id, чтобы все сообщения по диалогу были в пределах одного шарда и
-не пришлось ходить в другие воркеры или шарды за сообщениями.
-"Эффект Леди Гаги". Если сделать так, чтобы только по user_id шардировать, то на одной шардке бы копилось
-слишком много сообщений от разных пользовталей. Получили бы как бы перегруз шарды.
-А при dialog_id, каждый диалог пользователя равномерно распределяется на все шарды и тем самым нагрузка на них
-невеликая.
-
-Как проверить, что шардирование работает:
-1. Отправить сообщение в диалог между пользователями.
-2. Выполнить на координаторе select * from dialog_messages; 
-покажет одну строку.
-Выполнить SELECT get_shard_id_for_distribution_column('dialog_messages', 'dialog_id');
-   dialog_id - это идентификатор диалога, т.е. это шардированный ключ.
-И тем самым получить номер/id шарды.
-3. Зайти сначала в первую шарду: docker exec -it citus_worker1 psql -U postgres
-и выполнить select * from dialog_messages_{номер_шарды};
-   Зайти затем в вторую шарду: docker exec -it citus_worker2 psql -U postgres
-   и выполнить select * from dialog_messages_{номер_шарды};
-Убедиться, что только в одном из воркеров есть данный шард и только в нем появилась новая строка.
-
-Решардинг:
-В Citus при решардинге не используется консистентный хэш, так называемое "хэш-кольцо".
-А имеет 32 логических шарда и при добавлении нового воркера переносит часть шардов в новый воркер.
-Каждый шард переносится отдельно.
-Во время переноса:
-существующий шард продолжает обслуживать запросы;
-создается его копия на новом worker;
-после завершения копирования coordinator переключает маршрутизацию на новую копию;
-старая копия удаляется.
-Таким образом нет необходимости останавливать приложение.
-
-
-
-unset MAVEN_OPTS 
-scp -i ~/.ssh/my_otus_id_rsa docker-compose.yml ubuntu@84.252.140.21:socialnetwork/docker-compose.yml
-docker compose down
-docker compose up -d --pull always
-MAVEN_OPTS="" mvn -pl socialnetwork,dialog-service jib:build
+Если запуск осуществляется на удаленной машине, то выполнить: 
+1. scp -i ~/.ssh/my_otus_id_rsa docker-compose.yml ubuntu@{IP}:socialnetwork/docker-compose.yml
+2. Перейти на удаленную машину в директорию socialnetwork
+3. Выполнить: docker compose up -d --pull always
+4. В коллекции /postman проверить работу ендпоинтов.
