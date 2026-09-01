@@ -45,7 +45,7 @@ public class UserService {
     /**
      * Получить информацию по пользователю.
      */
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = true)
     public UserResponse getUser(String id) {
 
         UserEntity user = userRepository.findById(id)
@@ -61,7 +61,7 @@ public class UserService {
                 .build();
     }
 
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = true)
     public List<UserResponse> search(String firstName, String secondName) {
         return userRepository.search(firstName, secondName)
                 .stream()

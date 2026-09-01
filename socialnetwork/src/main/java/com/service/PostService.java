@@ -65,7 +65,7 @@ public class PostService {
         removeFromFeedsOfUsersWhoFriend(post.getAuthorId(), id);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = true)
     public PostResponse get(String id) {
         PostEntity post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
@@ -73,7 +73,7 @@ public class PostService {
         return toResponse(post);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = true)
     public List<PostResponse> getFeed(String userId, int offset, int limit) {
         List<PostEntity> cached = feedCacheService.getValue(userId);
         if (cached == null || cached.isEmpty()) {

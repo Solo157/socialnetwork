@@ -17,11 +17,10 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
     /**
      * В конструкторе регистрируем сорсы баз данных.
      */
-    public ReplicationRoutingDataSource(DataSource master, DataSource slave1, DataSource slave2) {
+    public ReplicationRoutingDataSource(DataSource master, DataSource readhaproxy) {
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put("master", master);
-        targetDataSources.put("slave1", slave1);
-        targetDataSources.put("slave2", slave2);
+        targetDataSources.put("readhaproxy", readhaproxy);
         setTargetDataSources(targetDataSources);
         setDefaultTargetDataSource(master);
         afterPropertiesSet();
@@ -38,9 +37,10 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
         boolean readOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
 
         if (readOnly) {
-            // Принимает значения 0 или 1, затем увеличивает счетчик
-            int index = Math.abs(counter.getAndIncrement() % 2);
-            return index == 0 ? "slave1" : "slave2";
+            return "readhaproxy";
+//            // Принимает значения 0 или 1, затем увеличивает счетчик
+//            int index = Math.abs(counter.getAndIncrement() % 2);
+//            return index == 0 ? "slave1" : "slave2";
         }
 
         return "master";
