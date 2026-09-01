@@ -1,4 +1,3 @@
-# поднимается несколько БД, могут работать в синхронном и асинхронном режиме, реплицирование БД
 networks:
   pgnet:
     driver: bridge
@@ -18,34 +17,6 @@ services:
       POSTGRES_PASSWORD: pass
     volumes:
       - ./volumes/pgmaster:/var/lib/postgresql/data
-
-#  pgslave:
-#    image: postgres:16
-#    container_name: pgslave
-#    restart: unless-stopped
-#    networks:
-#      - pgnet
-#    ports:
-#      - "15432:5432"
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: pass
-#    volumes:
-#      - ./volumes/pgslave:/var/lib/postgresql/data
-#
-#  pgasyncslave:
-#    image: postgres:16
-#    container_name: pgasyncslave
-#    restart: unless-stopped
-#    networks:
-#      - pgnet
-#    ports:
-#      - "25432:5432"
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: pass
-#    volumes:
-#      - ./volumes/pgasyncslave:/var/lib/postgresql/data
 
   redis:
     image: redis:7
@@ -75,6 +46,20 @@ services:
       timeout: 5s
       retries: 5
 
+  dialog-service:
+    image: ghcr.io/solo157/dialog-service:latest
+    container_name: dialog-service
+    restart: unless-stopped
+    networks:
+      - pgnet
+    ports:
+      - "9090:9090"
+    depends_on:
+      - redis
+    environment:
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+
   app:
     image: ghcr.io/solo157/socialnetwork:latest
     container_name: socialnetwork-app
@@ -86,18 +71,11 @@ services:
     depends_on:
       - pgmaster
       - rabbitmq
-#      - pgslave
-#      - pgasyncslave
       - redis
+      - dialog-service
     environment:
       SPRING_DATASOURCE_MASTER_URL: jdbc:postgresql://pgmaster:5432/postgres
       SPRING_DATASOURCE_MASTER_USERNAME: postgres
       SPRING_DATASOURCE_MASTER_PASSWORD: pass
-      SPRING_DATASOURCE_SLAVE1_URL: jdbc:postgresql://pgslave:5432/postgres
-      SPRING_DATASOURCE_SLAVE1_USERNAME: postgres
-      SPRING_DATASOURCE_SLAVE1_PASSWORD: pass
-      SPRING_DATASOURCE_SLAVE2_URL: jdbc:postgresql://pgasyncslave:5432/postgres
-      SPRING_DATASOURCE_SLAVE2_USERNAME: postgres
-      SPRING_DATASOURCE_SLAVE2_PASSWORD: pass
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: dialog-service
+
+server:
+  port: 8091
+
+grpc:
+  server:
+    port: 9090
