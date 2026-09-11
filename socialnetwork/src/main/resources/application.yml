@@ -4,9 +4,20 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://pgmaster:5432/postgres}
-    username: ${SPRING_DATASOURCE_MASTER_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_MASTER_PASSWORD:pass}
+    master:
+      url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://pgmaster:5432/postgres}
+      username: ${SPRING_DATASOURCE_MASTER_USERNAME:postgres}
+      password: ${SPRING_DATASOURCE_MASTER_PASSWORD:pass}
+    readhaproxy:
+      url: ${SPRING_DATASOURCE_READ_URL:jdbc:postgresql://haproxy:5432/postgres}
+      username: ${SPRING_DATASOURCE_READ_USERNAME:postgres}
+      password: ${SPRING_DATASOURCE_READ_PASSWORD:pass}
+
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: ${SPRING_DATASOURCE_MASTER_URL:jdbc:postgresql://pgmaster:5432/postgres}
+#    username: ${SPRING_DATASOURCE_MASTER_USERNAME:postgres}
+#    password: ${SPRING_DATASOURCE_MASTER_PASSWORD:pass}
   #    slave1:
   #      url: ${SPRING_DATASOURCE_SLAVE1_URL:jdbc:postgresql://pgslave:5432/postgres}
   #      username: ${SPRING_DATASOURCE_SLAVE1_USERNAME:postgres}

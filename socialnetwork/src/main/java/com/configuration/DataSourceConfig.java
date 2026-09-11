@@ -2,7 +2,6 @@ package com.configuration;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,38 +10,36 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 
 import javax.sql.DataSource;
 
-import java.util.*;
-
 @Configuration
 public class DataSourceConfig {
 
-    @Value("${spring.datasource.url:jdbc:postgresql://master:5432/postgres}")
-    private String datasourceUrl;
+//    @Value("${spring.datasource.url:jdbc:postgresql://master:5432/postgres}")
+//    private String datasourceUrl;
+//
+//    @Value("${spring.datasource.username:postgres}")
+//    private String datasourceUsername;
+//
+//    @Value("${spring.datasource.password:postgres}")
+//    private String datasourcePassword;
 
-    @Value("${spring.datasource.username:postgres}")
-    private String datasourceUsername;
+    @Value("${spring.datasource.master.url}")
+    private String masterUrl;
 
-    @Value("${spring.datasource.password:postgres}")
-    private String datasourcePassword;
-//
-//    @Value("${spring.datasource.master.url}")
-//    private String masterUrl;
-//
-//    @Value("${spring.datasource.master.username}")
-//    private String masterUsername;
-//
-//    @Value("${spring.datasource.master.password}")
-//    private String masterPassword;
-//
-//    @Value("${spring.datasource.slave1.url}")
-//    private String slave1Url;
-//
-//    @Value("${spring.datasource.slave1.username}")
-//    private String slave1Username;
-//
-//    @Value("${spring.datasource.slave1.password}")
-//    private String slave1Password;
-//
+    @Value("${spring.datasource.master.username}")
+    private String masterUsername;
+
+    @Value("${spring.datasource.master.password}")
+    private String masterPassword;
+
+    @Value("${spring.datasource.readhaproxy.url}")
+    private String readhaproxyUrl;
+
+    @Value("${spring.datasource.readhaproxy.username}")
+    private String readhaproxyUsername;
+
+    @Value("${spring.datasource.readhaproxy.password}")
+    private String readhaproxyPassword;
+
 //    @Value("${spring.datasource.slave2.url}")
 //    private String slave2Url;
 //
@@ -55,43 +52,42 @@ public class DataSourceConfig {
     /**
      * Принимает сорсы баз данных и подключает их к роутингу.
      */
-//    @Bean
-//    @Primary
-//    public DataSource routingDataSource(@Qualifier("masterDataSource") DataSource master,
-//                                        @Qualifier("slave1DataSource") DataSource slave1,
-//                                        @Qualifier("slave2DataSource") DataSource slave2) {
-//        ReplicationRoutingDataSource routingDataSource = new ReplicationRoutingDataSource(master, slave1, slave2);
-//
-//        return new LazyConnectionDataSourceProxy(routingDataSource);
+    @Bean
+    @Primary
+    public DataSource routingDataSource(@Qualifier("masterDataSource") DataSource master,
+                                        @Qualifier("readhaproxyDataSource") DataSource readhaproxy) {
+        ReplicationRoutingDataSource routingDataSource = new ReplicationRoutingDataSource(master, readhaproxy);
+
+        return new LazyConnectionDataSourceProxy(routingDataSource);
+    }
+
+//    @Bean(name = "dataSource")
+//    public DataSource dataSource() {
+//        return DataSourceBuilder.create()
+//                .url(datasourceUrl)
+//                .username(datasourceUsername)
+//                .password(datasourcePassword)
+//                .build();
 //    }
 
-    @Bean(name = "dataSource")
-    public DataSource dataSource() {
+    @Bean(name = "masterDataSource")
+    public DataSource masterDataSource() {
         return DataSourceBuilder.create()
-                .url(datasourceUrl)
-                .username(datasourceUsername)
-                .password(datasourcePassword)
+                .url(masterUrl)
+                .username(masterUsername)
+                .password(masterPassword)
                 .build();
     }
 
-//    @Bean(name = "masterDataSource")
-//    public DataSource masterDataSource() {
-//        return DataSourceBuilder.create()
-//                .url(masterUrl)
-//                .username(masterUsername)
-//                .password(masterPassword)
-//                .build();
-//    }
-//
-//    @Bean(name = "slave1DataSource")
-//    public DataSource slave1DataSource() {
-//        return DataSourceBuilder.create()
-//                .url(slave1Url)
-//                .username(slave1Username)
-//                .password(slave1Password)
-//                .build();
-//    }
-//
+    @Bean(name = "readhaproxyDataSource")
+    public DataSource readhaproxyDataSource() {
+        return DataSourceBuilder.create()
+                .url(readhaproxyUrl)
+                .username(readhaproxyUsername)
+                .password(readhaproxyPassword)
+                .build();
+    }
+
 //    @Bean(name = "slave2DataSource")
 //    public DataSource slave2DataSource() {
 //        return DataSourceBuilder.create()

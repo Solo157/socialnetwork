@@ -18,6 +18,47 @@ services:
     volumes:
       - ./volumes/pgmaster:/var/lib/postgresql/data
 
+  pgslave:
+    image: postgres:16
+    container_name: pgslave
+    restart: unless-stopped
+    networks:
+      - pgnet
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./volumes/pgslave:/var/lib/postgresql/data
+
+  pgasyncslave:
+    image: postgres:16
+    container_name: pgasyncslave
+    restart: unless-stopped
+    networks:
+      - pgnet
+    ports:
+      - "25432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./volumes/pgasyncslave:/var/lib/postgresql/data
+
+  haproxy:
+    image: haproxy:latest
+    ports:
+      - "5433:5432"
+      - "8404:8404"
+    networks:
+      - pgnet
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - pgasyncslave
+      - pgslave
+
   redis:
     image: redis:7
     container_name: redis
@@ -60,22 +101,47 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
 
-  app:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - pgnet
+    depends_on:
+      - socialnetwork1
+      - socialnetwork2
+
+  socialnetwork1:
     image: ghcr.io/solo157/socialnetwork:latest
-    container_name: socialnetwork-app
+    container_name: socialnetwork1
     restart: unless-stopped
     networks:
       - pgnet
-    ports:
-      - "8080:8080"
     depends_on:
       - pgmaster
       - rabbitmq
       - redis
+      - haproxy
       - dialog-service
     environment:
-      SPRING_DATASOURCE_MASTER_URL: jdbc:postgresql://pgmaster:5432/postgres
-      SPRING_DATASOURCE_MASTER_USERNAME: postgres
-      SPRING_DATASOURCE_MASTER_PASSWORD: pass
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+
+  socialnetwork2:
+    image: ghcr.io/solo157/socialnetwork:latest
+    container_name: socialnetwork2
+    restart: unless-stopped
+    networks:
+      - pgnet
+    depends_on:
+      - pgmaster
+      - rabbitmq
+      - redis
+      - haproxy
+      - dialog-service
+    environment:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
