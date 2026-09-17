@@ -87,6 +87,30 @@ services:
       timeout: 5s
       retries: 5
 
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: kafka
+    networks:
+      - pgnet
+    ports:
+      - "9092:9092"
+    volumes:
+      - ./volumes/kafka:/var/lib/kafka/data
+
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
   dialog-service:
     image: ghcr.io/solo157/dialog-service:latest
     container_name: dialog-service
@@ -96,10 +120,30 @@ services:
     ports:
       - "9090:9090"
     depends_on:
-      - redis
+      redis:
+        condition: service_started
     environment:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
+      SPRING_KAFKA_HOSTS: kafka:9092
+
+  counter-service:
+    image: ghcr.io/solo157/counter-service:latest
+    container_name: counter-service
+    restart: unless-stopped
+    networks:
+      - pgnet
+    ports:
+      - "8092:8092"
+    depends_on:
+      pgmaster:
+        condition: service_started
+      redis:
+        condition: service_started
+    environment:
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_KAFKA_HOSTS: kafka:9092
 
   nginx:
     image: nginx:alpine
@@ -121,11 +165,16 @@ services:
     networks:
       - pgnet
     depends_on:
-      - pgmaster
-      - rabbitmq
-      - redis
-      - haproxy
-      - dialog-service
+      pgmaster:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      haproxy:
+        condition: service_started
+      dialog-service:
+        condition: service_started
     environment:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
@@ -137,11 +186,16 @@ services:
     networks:
       - pgnet
     depends_on:
-      - pgmaster
-      - rabbitmq
-      - redis
-      - haproxy
-      - dialog-service
+      pgmaster:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      haproxy:
+        condition: service_started
+      dialog-service:
+        condition: service_started
     environment:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379

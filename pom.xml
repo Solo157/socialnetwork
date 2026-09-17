@@ -23,6 +23,7 @@
     <modules>
         <module>socialnetwork</module>
         <module>dialog-service</module>
+        <module>counter-service</module>
         <module>contract-module</module>
     </modules>
 

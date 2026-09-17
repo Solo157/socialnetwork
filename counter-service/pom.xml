@@ -10,8 +10,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>dialog-service</artifactId>
-    <name>dialog-service</name>
+    <artifactId>counter-service</artifactId>
+    <name>counter-service</name>
     <description>Demo project for Spring Boot</description>
     <packaging>jar</packaging>
 
@@ -86,12 +86,12 @@
                         <image>openjdk:27-ea-oraclelinux10</image>
                     </from>
                     <to>
-                        <image>${registry.url}/dialog-service:latest</image>
+                        <image>${registry.url}/counter-service:latest</image>
                     </to>
                     <container>
-                        <mainClass>org.counter.DialogServiceApplication</mainClass>
+                        <mainClass>org.counter.CounterServiceApplication</mainClass>
                         <ports>
-                            <port>9090</port>
+                            <port>8092</port>
                         </ports>
                     </container>
                 </configuration>
@@ -100,7 +100,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.counter.DialogServiceApplication</mainClass>
+                    <mainClass>org.counter.CounterServiceApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
