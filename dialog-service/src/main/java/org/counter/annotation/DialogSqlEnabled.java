@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import java.lang.annotation.*;
 
 /**
- * blabla.
+ * Бин активен при sqlDB.enabled=true (по умолчанию).
+ * SQL-реализация хранилища диалогов.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

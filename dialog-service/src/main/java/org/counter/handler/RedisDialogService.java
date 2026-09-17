@@ -10,13 +10,17 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Реализация хранилища диалогов на Redis (активна при sqlDB.enabled=false).
+ */
 @Service
 @RequiredArgsConstructor
 @DialogSqlDisabled
-public class RedisDialogService implements DialogServiceHandler{
+public class RedisDialogService implements DialogServiceHandler {
 
     private final DialogCacheService dialogCacheService;
 
+    @Override
     public void sendMessage(String senderId, String receiverId, String text) {
         String dialogId = dialogCacheService.findOrCreateDialogId(senderId, receiverId);
 
@@ -32,6 +36,7 @@ public class RedisDialogService implements DialogServiceHandler{
         dialogCacheService.addMessage(dialogId, message);
     }
 
+    @Override
     public List<Message> listMessages(String senderId, String receiverId) {
         return dialogCacheService.getMessages(senderId, receiverId)
                 .stream()

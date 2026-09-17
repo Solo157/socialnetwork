@@ -1,19 +1,19 @@
 package org.counter.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class DialogRepository {
 
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
     public void save(DialogEntity dialog) {
         String sql = """
@@ -21,20 +21,11 @@ public class DialogRepository {
                 VALUES (?, ?, ?, ?)
                 """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setString(1, dialog.getId());
-            ps.setString(2, dialog.getUser1Id());
-            ps.setString(3, dialog.getUser2Id());
-            ps.setTimestamp(4, Timestamp.valueOf(dialog.getCreatedAt()));
-
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
+        jdbcTemplate.update(sql,
+                dialog.getId(),
+                dialog.getUser1Id(),
+                dialog.getUser2Id(),
+                Timestamp.valueOf(dialog.getCreatedAt()));
     }
 
     public Optional<DialogEntity> findByParticipants(String userId1, String userId2) {
@@ -44,31 +35,18 @@ public class DialogRepository {
                    OR (user1_id = ? AND user2_id = ?)
                 """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        return jdbcTemplate.query(sql, (rs, rowNum) -> toEntity(rs), userId1, userId2, userId2, userId1)
+                .stream()
+                .findFirst();
+    }
 
-            ps.setString(1, userId1);
-            ps.setString(2, userId2);
-            ps.setString(3, userId2);
-            ps.setString(4, userId1);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) {
-                    return Optional.empty();
-                }
-
-                return Optional.of(DialogEntity.builder()
-                        .id(rs.getString("id"))
-                        .user1Id(rs.getString("user1_id"))
-                        .user2Id(rs.getString("user2_id"))
-                        .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
-                        .build());
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
+    private DialogEntity toEntity(ResultSet rs) throws SQLException {
+        return DialogEntity.builder()
+                .id(rs.getString("id"))
+                .user1Id(rs.getString("user1_id"))
+                .user2Id(rs.getString("user2_id"))
+                .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
+                .build();
     }
 
 }

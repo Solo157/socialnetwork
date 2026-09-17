@@ -50,9 +50,8 @@ public class DialogCacheService {
             throw new RuntimeException("Failed to get messages from Redis", e);
         }
 
-
         if (result.isEmpty()) {
-            return Collections.emptyList();
+            return List.of();
         }
 
         List<DialogMessageEntity> entities = new ArrayList<>();
@@ -77,9 +76,7 @@ public class DialogCacheService {
                     addMessageScript,
                     List.of(key),
                     objectMapper.writeValueAsString(message),
-                    String.valueOf(
-                            TTL_MINUTES * 60
-                    )
+                    String.valueOf(TTL_MINUTES * 60)
             );
         } catch (Exception e) {
             throw new RuntimeException("Failed to add message to Redis", e);

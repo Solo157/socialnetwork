@@ -1,16 +1,22 @@
 package org.counter.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Доступ к outbox-таблице message_outbox.
+ *
+ * JdbcTemplate внутри использует DataSourceUtils.getConnection():
+ * если в потоке активна Spring-транзакция, операции выполняются на её
+ * соединении (commit/rollback делает вызывающий сервис).
  *
  * Запись (событие) создаётся в той же транзакции, что и само действие
  * (создание сообщения, пометка прочтения), и проходит цикл NEW -> SENT:
@@ -24,7 +30,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class DialogMessageOutboxRepository {
 
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * Создаёт запись outbox. Статус берётся из сущности
@@ -37,22 +44,15 @@ public class DialogMessageOutboxRepository {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, outbox.getId());
-            ps.setString(2, outbox.getMessageId());
-            ps.setString(3, outbox.getReceiverId());
-            ps.setString(4, outbox.getDialogId());
-            ps.setString(5, outbox.getSenderId());
-            ps.setString(6, outbox.getEventType());
-            ps.setString(7, outbox.getStatus());
-            ps.setTimestamp(8, Timestamp.valueOf(outbox.getCreatedAt()));
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
+        jdbcTemplate.update(sql,
+                outbox.getId(),
+                outbox.getMessageId(),
+                outbox.getReceiverId(),
+                outbox.getDialogId(),
+                outbox.getSenderId(),
+                outbox.getEventType(),
+                outbox.getStatus(),
+                Timestamp.valueOf(outbox.getCreatedAt()));
     }
 
     /**
@@ -67,21 +67,7 @@ public class DialogMessageOutboxRepository {
                 LIMIT ?
                 """;
 
-        List<DialogMessageOutbox> entries = new ArrayList<>();
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, limit);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    entries.add(toEntity(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-        return entries;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> toEntity(rs), limit);
     }
 
     /**
@@ -95,27 +81,13 @@ public class DialogMessageOutboxRepository {
             return;
         }
 
-        String sql = "UPDATE message_outbox SET status = 'SENT', sent_at = NOW() WHERE id IN ("
-                + inPlaceholders(ids.size()) + ")";
+        String sql = """
+                UPDATE message_outbox
+                SET status = 'SENT', sent_at = NOW()
+                WHERE id IN (:ids)
+                """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            for (int i = 0; i < ids.size(); i++) {
-                ps.setString(i + 1, ids.get(i));
-            }
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-    }
-
-    /**
-     * Строка плейсхолдеров для IN-списка: 3 -> "?, ?, ?".
-     */
-    private static String inPlaceholders(int count) {
-        return String.join(", ", Collections.nCopies(count, "?"));
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("ids", ids));
     }
 
     /**

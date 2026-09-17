@@ -1,27 +1,30 @@
 package org.counter.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Доступ к сообщениям диалогов (таблица dialog_messages).
  *
- * Соединения берём через DataSourceUtils.getConnection(), а не напрямую
- * из DataSource: если в потоке активна Spring-транзакция, будет возвращено
- * её соединение, и операции репозитория выполнятся в этой транзакции
- * (commit/rollback делает вызывающий сервис).
+ * JdbcTemplate внутри использует DataSourceUtils.getConnection():
+ * если в потоке активна Spring-транзакция, операции выполняются на её
+ * соединении (commit/rollback делает вызывающий сервис).
  */
 @Repository
 @RequiredArgsConstructor
 public class DialogMessageRepository {
 
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final DialogRepository dialogRepository;
 
     /**
@@ -33,21 +36,13 @@ public class DialogMessageRepository {
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, message.getId());
-            ps.setString(2, message.getDialogId());
-            ps.setString(3, message.getSenderId());
-            ps.setString(4, message.getReceiverId());
-            ps.setString(5, message.getText());
-            ps.setTimestamp(6, Timestamp.valueOf(message.getCreatedAt()));
-
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
+        jdbcTemplate.update(sql,
+                message.getId(),
+                message.getDialogId(),
+                message.getSenderId(),
+                message.getReceiverId(),
+                message.getText(),
+                Timestamp.valueOf(message.getCreatedAt()));
     }
 
     /**
@@ -55,24 +50,7 @@ public class DialogMessageRepository {
      */
     public List<DialogMessageEntity> findByDialogId(String dialogId) {
         String sql = "SELECT * FROM dialog_messages WHERE dialog_id = ? ORDER BY created_at ASC";
-        List<DialogMessageEntity> messages = new ArrayList<>();
-
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, dialogId);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    messages.add(toEntity(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-
-        return messages;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> toEntity(rs), dialogId);
     }
 
     /**
@@ -100,31 +78,16 @@ public class DialogMessageRepository {
 
         String sql = """
                 SELECT * FROM dialog_messages
-                WHERE id IN (%s)
-                  AND receiver_id = ?
+                WHERE id IN (:ids)
+                  AND receiver_id = :readerId
                   AND read_at IS NULL
                 ORDER BY created_at ASC
                 FOR UPDATE
-                """.formatted(inPlaceholders(messageIds.size()));
+                """;
 
-        List<DialogMessageEntity> messages = new ArrayList<>();
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            bindMessageIds(ps, messageIds);
-            ps.setString(messageIds.size() + 1, readerId);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    messages.add(toEntity(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-
-        return messages;
+        MapSqlParameterSource params = new MapSqlParameterSource("ids", messageIds);
+        params.addValue("readerId", readerId);
+        return namedParameterJdbcTemplate.query(sql, params, (rs, rowNum) -> toEntity(rs));
     }
 
     /**
@@ -140,38 +103,14 @@ public class DialogMessageRepository {
         String sql = """
                 UPDATE dialog_messages
                 SET read_at = NOW()
-                WHERE id IN (%s)
-                  AND receiver_id = ?
+                WHERE id IN (:ids)
+                  AND receiver_id = :readerId
                   AND read_at IS NULL
-                """.formatted(inPlaceholders(messageIds.size()));
+                """;
 
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            bindMessageIds(ps, messageIds);
-            ps.setString(messageIds.size() + 1, readerId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-    }
-
-    /**
-     * Заполняет плейсхолдеры IN-списка id-ми сообщений
-     * (за ними в запросе идёт параметр readerId).
-     */
-    private void bindMessageIds(PreparedStatement ps, List<String> messageIds) throws SQLException {
-        for (int i = 0; i < messageIds.size(); i++) {
-            ps.setString(i + 1, messageIds.get(i));
-        }
-    }
-
-    /**
-     * Строка плейсхолдеров для IN-списка: 3 -> "?, ?, ?".
-     */
-    private static String inPlaceholders(int count) {
-        return String.join(", ", Collections.nCopies(count, "?"));
+        MapSqlParameterSource params = new MapSqlParameterSource("ids", messageIds);
+        params.addValue("readerId", readerId);
+        namedParameterJdbcTemplate.update(sql, params);
     }
 
     /**
