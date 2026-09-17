@@ -25,6 +25,9 @@ public class Config {
         return mapper;
     }
 
+    /**
+     * Создание топика и партиций.
+     */
     @Bean
     public NewTopic counterEventsTopic() {
         return TopicBuilder

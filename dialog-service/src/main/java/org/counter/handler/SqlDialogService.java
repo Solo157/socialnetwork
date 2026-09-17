@@ -73,7 +73,7 @@ public class SqlDialogService implements DialogServiceHandler {
      */
     @Transactional
     public void markMessagesRead(String readerId, List<String> messageIds) {
-        List<DialogMessageEntity> unread = dialogMessageRepository.findUnreadByIds(readerId, messageIds);
+        List<DialogMessageEntity> unread = findUnreadByIds(readerId, messageIds);
         if (unread.isEmpty()) {
             return;
         }
@@ -86,6 +86,11 @@ public class SqlDialogService implements DialogServiceHandler {
         }
 
         dialogMessageRepository.markRead(ids, readerId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DialogMessageEntity> findUnreadByIds(String readerId, List<String> messageIds) {
+        return dialogMessageRepository.findUnreadByIds(readerId, messageIds);
     }
 
     /**

@@ -96,19 +96,15 @@ services:
       - "9092:9092"
     volumes:
       - ./volumes/kafka:/var/lib/kafka/data
-
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-
       KAFKA_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   dialog-service:
@@ -135,6 +131,24 @@ services:
       - pgnet
     ports:
       - "8092:8092"
+    depends_on:
+      pgmaster:
+        condition: service_started
+      redis:
+        condition: service_started
+    environment:
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_KAFKA_HOSTS: kafka:9092
+
+  counter-service2:
+    image: ghcr.io/solo157/counter-service:latest
+    container_name: counter-service2
+    restart: unless-stopped
+    networks:
+      - pgnet
+    ports:
+      - "8094:8092"
     depends_on:
       pgmaster:
         condition: service_started

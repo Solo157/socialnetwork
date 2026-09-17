@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.*;
+
 /**
  * Доступ к таблицам counter-service:
  * user_message_counters — счётчик непрочитанных на пользователя,
@@ -17,8 +19,9 @@ public class CounterRepository {
 
     /**
      * Помечает событие обработанным.
+     *
      * @return true, если событие зафиксировано впервые, false — это дубль
-     *         (повторная доставка Kafka), и его надо пропустить.
+     * (повторная доставка Kafka), и его надо пропустить.
      */
     public boolean tryRecordEvent(String eventId) {
         String sql = """
@@ -62,17 +65,18 @@ public class CounterRepository {
     public UserMessageCounter getCounter(String userId) {
         String sql = "SELECT * FROM user_message_counters WHERE user_id = ?";
 
-        var rows = jdbcTemplate.query(sql,
-                (rs, rowNum) -> UserMessageCounter.builder()
-                        .userId(rs.getString("user_id"))
-                        .unreadCount(rs.getLong("unread_count"))
-                        .lastMessageAt(rs.getTimestamp("last_message_at") == null
-                                ? null
-                                : rs.getTimestamp("last_message_at").toLocalDateTime())
-                        .build(),
+        List<UserMessageCounter> rows = jdbcTemplate.query(sql,
+                (rs, rowNum) ->
+                        UserMessageCounter.builder()
+                                .userId(rs.getString("user_id"))
+                                .unreadCount(rs.getLong("unread_count"))
+                                .lastMessageAt(rs.getTimestamp("last_message_at") == null
+                                        ? null
+                                        : rs.getTimestamp("last_message_at").toLocalDateTime())
+                                .build(),
                 userId);
 
-        return rows.isEmpty() ? null : rows.get(0);
+        return rows.isEmpty() ? null : rows.getFirst();
     }
 
 }
