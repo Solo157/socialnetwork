@@ -1,6 +1,6 @@
 spring:
   application:
-    name: dialog-service
+    name: counter-service
   datasource:
     driver-class-name: org.postgresql.Driver
     master:
@@ -19,20 +19,21 @@ spring:
     init:
       mode: always
       encoding: UTF-8
-      schema-locations: classpath:db/dialog_service_schema.sql
+      schema-locations: classpath:db/counter_service_schema.sql
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_HOSTS:localhost:9092}
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: counter-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+    listener:
+      # ACK только вручную, после успешного commit транзакции
+      ack-mode: manual_immediate
 
 server:
-  port: 8091
-
-
-sqlDB:
-  enabled: true
-
-grpc:
-  server:
-    port: 9090
+  port: 8092

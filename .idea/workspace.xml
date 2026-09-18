@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3953fd0-9a18-4f18-b33a-8f06481988db" name="Changes" comment="Add gRPC 2">
-      <change afterPath="$PROJECT_DIR$/haproxy/haproxy.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/nginx.conf" afterDir="false" />
+    <list default="true" id="b3953fd0-9a18-4f18-b33a-8f06481988db" name="Changes" comment="refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/counter-service/src/main/java/org/counter/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/counter-service/src/main/java/org/counter/config/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/counter-service/src/main/java/org/counter/config/RedisConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/counter-service/src/main/java/org/counter/listener/CounterKafkaListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/counter-service/src/main/java/org/counter/listener/CounterKafkaListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/counter-service/src/main/java/org/counter/repository/CounterRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/counter-service/src/main/java/org/counter/repository/CounterRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dialog-service/src/main/java/org/counter/handler/SqlDialogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dialog-service/src/main/java/org/counter/handler/SqlDialogService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/DataSourceConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/DataSourceConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/ReplicationRoutingDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/configuration/ReplicationRoutingDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/PostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/java/com/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socialnetwork/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/socialnetwork/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,11 +19,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="82" />
+    <option name="cachedIndexableFilesCount" value="134" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="AnnotationType" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -66,7 +66,7 @@
     <urls />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8,
@@ -77,52 +77,66 @@
     <option name="compactDirectories" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sns [validate].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.DialogServiceApplication (1).executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.DialogServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.SocialNetworkApplication.executor&quot;: &quot;Run&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#6 on grpc&quot;,
-    &quot;git.auto.fetch.suggestion.counter&quot;: &quot;1&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/kirill/IdeaProjects/studying/OTUS/socialnetwork&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMThirdPartyAiProvidersConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.dialog-service [clean].executor": "Run",
+    "Maven.dialog-service [compiler:compile].executor": "Run",
+    "Maven.dialog-service [verify].executor": "Run",
+    "Maven.sns [validate].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.DialogServiceApplication (1).executor": "Run",
+    "Spring Boot.DialogServiceApplication.executor": "Run",
+    "Spring Boot.SocialNetworkApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "#8 on distributed",
+    "git.auto.fetch.suggestion.counter": "1",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/kirill/IdeaProjects/studying/OTUS/socialnetwork/counter-service/src/main/java/org/counter/config",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "ml.llm.LLMThirdPartyAiProvidersConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/counter-service/src/main/java/org/counter/config" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/dialog-service/src/main/java/org/dialog/repository" />
       <recent name="$PROJECT_DIR$/dialog-service/src/main/java/org/services" />
       <recent name="$PROJECT_DIR$/socialnetwork/src/main" />
-      <recent name="$PROJECT_DIR$/dialog-service/src/main/proto" />
-      <recent name="$PROJECT_DIR$/dialog-service/src/main/resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.counter.config" />
+      <recent name="org.dialog.annotation" />
+      <recent name="org.dialog.repository" />
+      <recent name="org.dialog.handler" />
       <recent name="org.services" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn verify" />
+      <command value="mvn compiler:compile" />
+    </option>
   </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
@@ -147,9 +161,9 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.SocialNetworkApplication">
-    <configuration name="DialogServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="dialog-service" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.dialog.DialogServiceApplication" />
+    <configuration name="CounterServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="counter-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.counter.CounterServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -167,6 +181,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DialogServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="dialog-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.counter.DialogServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SocialNetworkApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="socialnetwork" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.SocialNetworkApplication" />
@@ -175,12 +196,13 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Spring Boot.DialogServiceApplication (1)" />
+      <item itemvalue="Spring Boot.CounterServiceApplication" />
       <item itemvalue="Spring Boot.SocialNetworkApplication" />
       <item itemvalue="Spring Boot.DialogServiceApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.DialogServiceApplication" />
         <item itemvalue="Spring Boot.DialogServiceApplication" />
       </list>
     </recent_temporary>
@@ -197,6 +219,12 @@
       <workItem from="1787664945275" duration="17000" />
       <workItem from="1788140740095" duration="1814000" />
       <workItem from="1788184280056" duration="18247000" />
+      <workItem from="1789398903343" duration="13580000" />
+      <workItem from="1789488803333" duration="929000" />
+      <workItem from="1789523186480" duration="3827000" />
+      <workItem from="1789570067447" duration="8538000" />
+      <workItem from="1789578623127" duration="4765000" />
+      <workItem from="1789645335098" duration="7498000" />
     </task>
     <task id="LOCAL-00001" summary="Add redis for dialogs">
       <option name="closed" value="true" />
@@ -238,7 +266,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787144317628</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="first-commit">
+      <option name="closed" value="true" />
+      <created>1789608702197</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1789608702197</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1789611860342</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1789611860342</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,7 +305,9 @@
     <MESSAGE value="Add redis for dialogs 4" />
     <MESSAGE value="Add gRPC" />
     <MESSAGE value="Add gRPC 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add gRPC 2" />
+    <MESSAGE value="first-commit" />
+    <MESSAGE value="refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

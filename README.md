@@ -20,9 +20,13 @@
 Если нужно скомпилировать и запушить в docker registry:
 1. registry прописать в главном pom и пароль установить в .m2/settings.xml
 2. Компилируем микросервисы: mvn clean install
-3. Пушим в докер registry: MAVEN_OPTS="" mvn -pl socialnetwork,dialog-service jib:build
+3. Пушим в докер registry: MAVEN_OPTS="" mvn -pl socialnetwork,dialog-service,counter-service jib:build
 
 ЗАПУСК ПРИЛОЖЕНИЯ:
+docker compose down
+rm -rf ./volumes/kafka
+docker compose up -d --pull always
+
 1. В корневой директории проекта выполнить: docker compose up -d --pull always
 2. В коллекции /postman проверить работу ендпоинтов.
 
