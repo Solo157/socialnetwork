@@ -1,0 +1,9 @@
+---
+- name: Install and configure Zabbix Agent 2
+  hosts: dev
+  become: true
+
+  roles:
+    - install-zabbix-agent
+    - docker
+    - deploy

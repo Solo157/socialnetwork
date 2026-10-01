@@ -1,0 +1,7 @@
+---
+- name: Install and configure Zabbix Agent 2
+  hosts: dev
+  become: true
+
+  roles:
+    - uninstall-zabbix-agent

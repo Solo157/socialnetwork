@@ -91,7 +91,7 @@
                     <container>
                         <mainClass>org.counter.DialogServiceApplication</mainClass>
                         <ports>
-                            <port>9090</port>
+                            <port>9099</port>
                         </ports>
                     </container>
                 </configuration>

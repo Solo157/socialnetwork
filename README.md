@@ -22,16 +22,21 @@
 2. Компилируем микросервисы: mvn clean install
 3. Пушим в докер registry: MAVEN_OPTS="" mvn -pl socialnetwork,dialog-service,counter-service jib:build
 
-ЗАПУСК ПРИЛОЖЕНИЯ:
-docker compose down
-rm -rf ./volumes/kafka
+ЗАПУСК ПРИЛОЖЕНИЯ на локальной машине:
 docker compose up -d --pull always
 
-1. В корневой директории проекта выполнить: docker compose up -d --pull always
-2. В коллекции /postman проверить работу ендпоинтов.
+ЗАПУСК ПРИЛОЖЕНИЯ на виртуальной машине:
+выполнить: ./script-for-VMs.sh дождаться поднятия виртуальных машин в YC.
+Прописать в ansible host, password для виртуальной машины.
 
-Если запуск осуществляется на удаленной машине, то выполнить: 
-1. scp -i ~/.ssh/my_otus_id_rsa docker-compose.yml ubuntu@{IP}:socialnetwork/docker-compose.yml
-2. Перейти на удаленную машину в директорию socialnetwork
-3. Выполнить: docker compose up -d --pull always
-4. В коллекции /postman проверить работу ендпоинтов.
+Выполнить команду установки через ансибл (установит и поднимет все сервисы):
+ANSIBLE_ROLES_PATH=ansible/roles \
+ansible-playbook \
+-i ansible/inventory/dev.yaml \
+ansible/playbooks/install-zabbix-agent.yml
+
+Выполнить команду удаления через ансибл (остановит и удалит все сервисы):
+ANSIBLE_ROLES_PATH=ansible/roles \
+ansible-playbook \
+-i ansible/inventory/dev.yaml \
+ansible/playbooks/uninstall-zabbix-agent.yml

@@ -1,0 +1,74 @@
+---
+- name: Create application directory
+  file:
+    path: /opt/app
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+
+- name: Copy docker compose
+  copy:
+    src: ../../../../docker-compose.yml
+    dest: /opt/app/docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+
+- name: Create nginx directory
+  file:
+    path: /opt/app/nginx
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+
+- name: Copy nginx conf
+  copy:
+    src: ../../../../nginx/nginx.conf
+    dest: /opt/app/nginx/nginx.conf
+    owner: ubuntu
+    group: ubuntu
+
+- name: Create prometheus directory
+  file:
+    path: /opt/app/prometheus
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+
+- name: Copy prometheus
+  copy:
+    src: ../../../../prometheus/prometheus.yml
+    dest: /opt/app/prometheus/prometheus.yml
+    owner: ubuntu
+    group: ubuntu
+
+- name: Create zabbix directory
+  file:
+    path: /opt/app/zabbix
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+
+- name: Copy zabbix
+  copy:
+    src: ../../../../zabbix/docker-compose.yml
+    dest: /opt/app/zabbix/docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+
+- name: Deploy with docker compose
+  shell: |
+    docker compose down
+    docker compose up -d --pull always
+  args:
+    chdir: /opt/app
+
+- name: Deploy with docker compose for zabbix
+  shell: |
+    docker compose down
+    docker compose up -d --pull always
+  args:
+    chdir: /opt/app/zabbix

@@ -31,6 +31,7 @@ public class SecurityConfig {
                         // публичные методы, данные методы не защищаем
                         .requestMatchers(
                                 "/user/register",
+                                "/actuator/**",
                                 "/login",
                                 "/ws/**"
                         ).permitAll()
