@@ -1,0 +1,13 @@
+all:
+  children:
+    socialnetwork:
+      hosts:
+        dev:
+          ansible_host: 84.252.140.21
+          ansible_user: ubuntu
+          ansible_password: otus
+          ansible_become_password: otus
+          ansible_ssh_common_args: "-o PreferredAuthentications=password -o PubkeyAuthentication=no"
+
+          zabbix_server_host: 84.252.140.21
+          zabbix_agent_hostname: "socialnetwork-dev"

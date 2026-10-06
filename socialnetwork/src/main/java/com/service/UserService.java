@@ -43,6 +43,14 @@ public class UserService {
     }
 
     /**
+     * Получить количество пользователей.
+     */
+    @Transactional(readOnly = true)
+    public int getUserCount() {
+        return userRepository.count();
+    }
+
+    /**
      * Получить информацию по пользователю.
      */
     @Transactional(readOnly = true)

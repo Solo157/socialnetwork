@@ -47,6 +47,20 @@ public class UserRepository {
                 user.getFriends() != null ? toJson(user.getFriends()) : null);
     }
 
+    public int count() {
+        String sql = "SELECT count(1) FROM users";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.getRow();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Optional<UserEntity> findById(String id) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
